@@ -1,0 +1,3 @@
+inherited GameForm_Windows: TGameForm_Windows
+  DesignerMasterStyle = 0
+end

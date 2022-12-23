@@ -3,9 +3,9 @@ program SpaceEscaper;
 uses
   System.StartUpCopy,
   FMX.Forms,
-  uGame in 'uGame.pas' {GameForm},
-  uPlayer in 'uPlayer.pas' {$R *.res},
-  uBase in 'uBase.pas';
+  uGame in 'src/uGame.pas' {GameForm},
+  uPlayer in 'src/uPlayer.pas' {$R *.res},
+  uBase in 'src//uBase.pas';
 
 {$R *.res}
 
