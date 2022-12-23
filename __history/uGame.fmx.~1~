@@ -2,8 +2,8 @@ object GameForm: TGameForm
   Left = 0
   Top = 0
   Caption = 'Form1'
-  ClientHeight = 500
-  ClientWidth = 750
+  ClientHeight = 476
+  ClientWidth = 719
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -12,9 +12,9 @@ object GameForm: TGameForm
   OnKeyUp = FormKeyUp
   DesignerMasterStyle = 0
   object HUDLayout: TLayout
-    Align = Fit
-    Size.Width = 750.000000000000000000
-    Size.Height = 500.000000000000000000
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Size.Width = 719.000000000000000000
+    Size.Height = 474.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object PlayerCharacter: TRectangle
@@ -37,9 +37,10 @@ object GameForm: TGameForm
     end
   end
   object ScreenLayout: TLayout
-    Align = Center
-    Size.Width = 750.000000000000000000
-    Size.Height = 500.000000000000000000
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Position.Y = 2.000000000000000000
+    Size.Width = 719.000000000000000000
+    Size.Height = 474.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
   end

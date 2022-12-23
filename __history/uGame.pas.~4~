@@ -41,7 +41,6 @@ implementation
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
   player := TPlayer.create(self, self.PlayerCharacter);
-  player.reset;
 
   KeyLabel.Text := '';
 end;

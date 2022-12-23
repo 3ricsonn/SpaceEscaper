@@ -3,7 +3,7 @@ object GameForm: TGameForm
   Top = 0
   Caption = 'Form1'
   ClientHeight = 500
-  ClientWidth = 750
+  ClientWidth = 700
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
@@ -12,8 +12,8 @@ object GameForm: TGameForm
   OnKeyUp = FormKeyUp
   DesignerMasterStyle = 0
   object HUDLayout: TLayout
-    Align = Fit
-    Size.Width = 750.000000000000000000
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Size.Width = 700.000000000000000000
     Size.Height = 500.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
@@ -37,8 +37,8 @@ object GameForm: TGameForm
     end
   end
   object ScreenLayout: TLayout
-    Align = Center
-    Size.Width = 750.000000000000000000
+    Align = Fit
+    Size.Width = 700.000000000000000000
     Size.Height = 500.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
