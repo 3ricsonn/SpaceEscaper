@@ -4,7 +4,8 @@ uses
   System.StartUpCopy,
   FMX.Forms,
   uGame in 'uGame.pas' {GameForm},
-  uPlayer in 'uPlayer.pas' {$R *.res};
+  uPlayer in 'uPlayer.pas' {$R *.res},
+  uBase in 'uBase.pas';
 
 {$R *.res}
 

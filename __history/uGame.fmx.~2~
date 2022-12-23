@@ -1,0 +1,52 @@
+object GameForm: TGameForm
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 500
+  ClientWidth = 700
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
+  DesignerMasterStyle = 0
+  object HUDLayout: TLayout
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    Size.Width = 700.000000000000000000
+    Size.Height = 500.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object PlayerCharacter: TRectangle
+      Position.X = 336.000000000000000000
+      Position.Y = 232.000000000000000000
+      Size.Width = 50.000000000000000000
+      Size.Height = 50.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object KeyLabel: TLabel
+      StyledSettings = [Family, Style, FontColor]
+      Position.X = 504.000000000000000000
+      Position.Y = 112.000000000000000000
+      Size.Width = 129.000000000000000000
+      Size.Height = 33.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 20.000000000000000000
+      Text = 'KeyLabel'
+      TabOrder = 0
+    end
+  end
+  object ScreenLayout: TLayout
+    Align = Fit
+    Size.Width = 700.000000000000000000
+    Size.Height = 500.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+  end
+  object GameLoop: TTimer
+    Interval = 32
+    OnTimer = GameLoopTimer
+    Left = 635
+    Top = 386
+  end
+end

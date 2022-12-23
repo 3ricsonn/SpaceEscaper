@@ -6,9 +6,9 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes,
   System.Variants,
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
-  FMX.Layouts,
+  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls,
 
-  uPlayer, FMX.Controls.Presentation, FMX.StdCtrls;
+  UBase, uPlayer;
 
 type
   TGameForm = class(TForm)
@@ -41,7 +41,6 @@ implementation
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
   player := TPlayer.create(self, self.PlayerCharacter);
-  self.PlayerCharacter.TagObject := player;
 
   KeyLabel.Text := '';
 end;
@@ -49,13 +48,67 @@ end;
 { Game Loop }
 procedure TGameForm.GameLoopTimer(Sender: TObject);
 begin
-  eventHandler.screensize.width := screenLayout.Width;
-  eventHandler.screensize.height := screenLayout.Height;
+  { update players position }
+  // move left
+  if (eventHandler.LeftButton) then
+  begin
+    if (player.Position.x - player.velocity > ScreenLayout.Position.x) then
+    begin
+      player.Position.x := player.Position.x - player.velocity;
+    end
+    else
+    begin
+      player.Position.x := ScreenLayout.Position.x;
+    end;
+  end;
 
-  eventHandler.screenpos.x := screenLayout.Position.x;
-  eventHandler.screenpos.y := screenLayout.Position.y;
+  // move right
+  if (eventHandler.RightButton) then
+  begin
+    if (player.Position.x + player.size.width + player.velocity <
+      ScreenLayout.Position.x + ScreenLayout.width) then
+    begin
+      player.Position.x := player.Position.x + player.velocity;
+    end
+    else
+    begin
+      player.Position.x := ScreenLayout.Position.x + ScreenLayout.width -
+        player.size.width;
+    end;
+  end;
 
-  player.update(eventHandler);
+  // move down
+  if (eventHandler.UpButton) then
+  begin
+    if (player.Position.y - player.velocity > ScreenLayout.Position.y) then
+    begin
+      player.Position.y := player.Position.y - player.velocity;
+    end
+    else
+    begin
+      player.Position.y := ScreenLayout.Position.y;
+    end;
+  end;
+
+  // move up
+  if (eventHandler.DownButton) then
+  begin
+    if (player.Position.y + player.velocity + player.size.Height <
+      ScreenLayout.Position.y + ScreenLayout.Height) then
+    begin
+      player.Position.y := player.Position.y + player.velocity;
+    end
+    else
+    begin
+      player.Position.y := ScreenLayout.Position.y + ScreenLayout.Height -
+        player.size.Height;
+    end;
+  end;
+
+  if (eventHandler.EventButton) then
+  begin
+    player.reset;
+  end;
 end;
 
 { Input procedures }
@@ -83,6 +136,11 @@ begin
         eventHandler.RightButton := True;
         KeyLabel.Text := 'D';
       end;
+    'E', 'e':
+      begin
+        eventHandler.EventButton := True;
+        KeyLabel.Text := 'E';
+      end;
   end;
 end;
 
@@ -105,6 +163,10 @@ begin
     'D', 'd':
       begin
         eventHandler.RightButton := False;
+      end;
+    'E', 'e':
+      begin
+        eventHandler.EventButton := False;
       end;
   end;
   KeyLabel.Text := '';
