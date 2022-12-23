@@ -20,18 +20,6 @@ type
     y: single;
   end;
 
-  _TPosition = class
-  private
-    coreClass: TRectangle;
-    function readX: single;
-    procedure writeX(x: single);
-    function readY: single;
-    procedure writeY(y: single);
-  public
-    property x: single read readX write writeX;
-    property y: single read readY write writeY;
-  end;
-
   _TSize = record
     width: single;
     height: single;
@@ -41,16 +29,16 @@ type
   private
     _screenObject: TRectangle;
     _picturePath: string;
-
     function _readPos: _TPos;
     function _readSize: _TSize;
     procedure bindBitmapToObject(Bitmap: TBitmap);
   public
     constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
-    procedure setToPosition(x: single; y: single);
     procedure setImage(imagePath: string);
-    //property Position: TPosition read _screenObject.Position
-    //  write _screenObject.Position;
+    procedure setToPosition(x: single; y: single);
+    procedure setToX(x: single);
+    procedure setToY(y: single);
+    property Position: _TPos read _readPos;
     property Size: _TSize read _readSize;
   end;
 
@@ -82,6 +70,16 @@ begin
   self._screenObject.Position.y := y;
 end;
 
+procedure TBaseGameClass.setToX(x: single);
+begin
+  self._screenObject.Position.x := x;
+end;
+
+procedure TBaseGameClass.setToY(y: single);
+begin
+  self._screenObject.Position.y := y;
+end;
+
 procedure TBaseGameClass.bindBitmapToObject(Bitmap: TBitmap);
 begin
 end;
@@ -89,27 +87,4 @@ end;
 procedure TBaseGameClass.setImage(imagePath: string);
 begin
 end;
-
-
-
-function _TPosition.readX: Single;
-begin
-  result := self.coreClass.Position.X;
-end;
-
-procedure _TPosition.writeX(x: Single);
-begin
-  self.coreClass.Position.x := x;
-end;
-
-function _TPosition.readY: Single;
-begin
-  result := self.coreClass.Position.Y;
-end;
-
-procedure _TPosition.writeY(y: Single);
-begin
-  self.coreClass.Position.y := y;
-end;
-
 end.

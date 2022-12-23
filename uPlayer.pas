@@ -23,7 +23,7 @@ implementation
 
 procedure TPlayer.reset;
 begin
-  self.setToPosition(350 - self.size.width, 250 - self.size.height);
+  self.setToPosition(375 - self.size.width/2, 250 - self.size.height/2);
 end;
 
 end.

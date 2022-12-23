@@ -41,6 +41,7 @@ implementation
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
   player := TPlayer.create(self, self.PlayerCharacter);
+  player.reset;
 
   KeyLabel.Text := '';
 end;
@@ -54,11 +55,11 @@ begin
   begin
     if (player.Position.x - player.velocity > ScreenLayout.Position.x) then
     begin
-      player.Position.x := player.Position.x - player.velocity;
+      player.setToX(player.Position.x - player.velocity);
     end
     else
     begin
-      player.Position.x := ScreenLayout.Position.x;
+      player.setToX(ScreenLayout.Position.x);
     end;
   end;
 
@@ -68,12 +69,12 @@ begin
     if (player.Position.x + player.size.width + player.velocity <
       ScreenLayout.Position.x + ScreenLayout.width) then
     begin
-      player.Position.x := player.Position.x + player.velocity;
+      player.setToX(player.Position.x + player.velocity);
     end
     else
     begin
-      player.Position.x := ScreenLayout.Position.x + ScreenLayout.width -
-        player.size.width;
+      player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
+        player.size.width);
     end;
   end;
 
@@ -82,11 +83,11 @@ begin
   begin
     if (player.Position.y - player.velocity > ScreenLayout.Position.y) then
     begin
-      player.Position.y := player.Position.y - player.velocity;
+      player.setToY(player.Position.y - player.velocity);
     end
     else
     begin
-      player.Position.y := ScreenLayout.Position.y;
+      player.setToY(ScreenLayout.Position.y);
     end;
   end;
 
@@ -96,12 +97,12 @@ begin
     if (player.Position.y + player.velocity + player.size.Height <
       ScreenLayout.Position.y + ScreenLayout.Height) then
     begin
-      player.Position.y := player.Position.y + player.velocity;
+      player.setToY(player.Position.y + player.velocity);
     end
     else
     begin
-      player.Position.y := ScreenLayout.Position.y + ScreenLayout.Height -
-        player.size.Height;
+      player.setToY(ScreenLayout.Position.y + ScreenLayout.Height -
+        player.size.Height);
     end;
   end;
 
