@@ -17,29 +17,44 @@ type
     ScreenLayout: TLayout;
     GameLoop: TTimer;
     KeyLabel: TLabel;
-    GridPanelLayout1: TGridPanelLayout;
-    Rectangle1: TRectangle;
-    Rectangle2: TRectangle;
-    Rectangle3: TRectangle;
-    Rectangle4: TRectangle;
-    Rectangle5: TRectangle;
-    Rectangle6: TRectangle;
-    Rectangle7: TRectangle;
-    Rectangle8: TRectangle;
-    Rectangle9: TRectangle;
-    Rectangle10: TRectangle;
-    Rectangle11: TRectangle;
-    Rectangle12: TRectangle;
-    Rectangle13: TRectangle;
-    Rectangle14: TRectangle;
-    Rectangle15: TRectangle;
-    Rectangle16: TRectangle;
+    RoomGridLayout: TGridPanelLayout;
+    RoomRectangle1: TRectangle;
+    RoomRectangle2: TRectangle;
+    RoomRectangle3: TRectangle;
+    RoomRectangle4: TRectangle;
+    RoomRectangle5: TRectangle;
+    RoomRectangle6: TRectangle;
+    RoomRectangle7: TRectangle;
+    RoomRectangle8: TRectangle;
+    RoomRectangle9: TRectangle;
+    RoomRectangle10: TRectangle;
+    RoomRectangle11: TRectangle;
+    RoomRectangle12: TRectangle;
+    RoomRectangle13: TRectangle;
+    RoomRectangle14: TRectangle;
+    RoomRectangle15: TRectangle;
+    RoomRectangle16: TRectangle;
+    ImageRoomDoorDown: TRectangle;
+    ImageContainer: TLayout;
+    ImageRoomDoorLeft: TRectangle;
+    ImageRoomDoorRight: TRectangle;
+    ImageRoomDoorUp: TRectangle;
+    ImageRoomDoorLeftDown: TRectangle;
+    ImageRoomDoorUpDown: TRectangle;
+    ImageRoomDoorLeftUpDown: TRectangle;
+    ImageRoomDoorLeftRight: TRectangle;
+    ImageRoomDoorLeftUp: TRectangle;
+    ImageRoomDoorRightDown: TRectangle;
+    ImageRoomDoorRightUp: TRectangle;
+    ImageRoomDoorLeftRightUpDown: TRectangle;
     procedure FormCreate(Sender: TObject);
     procedure GameLoopTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
+    procedure setImagetoRectangle(image: TRectangle; rectangle: TRectangle);
+    procedure Reset;
   private
     { Private declarations }
   public
@@ -57,16 +72,38 @@ implementation
 
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
-  player := TPlayer.create(self, self.PlayerCharacter);
-  player.reset;
+  self.ImageContainer.Visible := False;
 
-  KeyLabel.Text := '';
+  player := TPlayer.create(self, self.PlayerCharacter);
+  self.Reset;
+
+  // set room distribution
+  self.setImagetoRectangle(self.ImageRoomDoorRight, self.RoomRectangle1);
+  //self.setImagetoRectangle(self.ImageRoomDoorLeftRightDown, self.RoomRectangle2);
+  self.setImagetoRectangle(self.ImageRoomDoorLeft, self.RoomRectangle3);
+  self.setImagetoRectangle(self.ImageRoomDoorDown, self.RoomRectangle4);
+  self.setImagetoRectangle(self.ImageRoomDoorRightDown, self.RoomRectangle5);
+  self.setImagetoRectangle(self.ImageRoomDoorLeftRightUpDown, self.RoomRectangle6);
+  //self.setImagetoRectangle(self.ImageRoomDoorLeftRightDown, self.RoomRectangle7);
+  self.setImagetoRectangle(self.ImageRoomDoorLeftUpDown, self.RoomRectangle8);
+  self.setImagetoRectangle(self.ImageRoomDoorUpDown, self.RoomRectangle9);
+  //self.setImagetoRectangle(self.ImageRoomDoorRightUpDown, self.RoomRectangle10);
+  self.setImagetoRectangle(self.ImageRoomDoorLeftUp, self.RoomRectangle11);
+  self.setImagetoRectangle(self.ImageRoomDoorUpDown, self.RoomRectangle12);
+  self.setImagetoRectangle(self.ImageRoomDoorUp, self.RoomRectangle13);
+  self.setImagetoRectangle(self.ImageRoomDoorUp, self.RoomRectangle14);
+  self.setImagetoRectangle(self.ImageRoomDoorRight, self.RoomRectangle15);
+  self.setImagetoRectangle(self.ImageRoomDoorLeftUp, self.RoomRectangle16);
+
+  self.KeyLabel.Text := '';
 end;
 
 { Game Loop }
 procedure TGameForm.GameLoopTimer(Sender: TObject);
 begin
   { update players position }
+  // TODO: Außenwand durch Raum Wand erstetzen
+
   // move left
   if (eventHandler.LeftButton) then
   begin
@@ -77,6 +114,12 @@ begin
     else
     begin
       player.setToX(ScreenLayout.Position.x);
+      if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x)
+      then
+      begin
+        self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
+          player.velocity;
+      end;
     end;
   end;
 
@@ -92,10 +135,16 @@ begin
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
         player.size.width);
+      if (player.Position.x + player.size.width + player.velocity <
+        self.RoomGridLayout.Position.x + self.RoomGridLayout.width) then
+      begin
+        self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
+          player.velocity;
+      end;
     end;
   end;
 
-  // move down
+  // move up
   if (eventHandler.UpButton) then
   begin
     if (player.Position.y - player.velocity > ScreenLayout.Position.y) then
@@ -105,10 +154,16 @@ begin
     else
     begin
       player.setToY(ScreenLayout.Position.y);
+      if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y)
+      then
+      begin
+        self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
+          player.velocity;
+      end;
     end;
   end;
 
-  // move up
+  // move down
   if (eventHandler.DownButton) then
   begin
     if (player.Position.y + player.velocity + player.size.Height <
@@ -120,12 +175,18 @@ begin
     begin
       player.setToY(ScreenLayout.Position.y + ScreenLayout.Height -
         player.size.Height);
+      if (player.Position.y + player.size.Height + player.velocity <
+        self.RoomGridLayout.Position.y + self.RoomGridLayout.Height) then
+      begin
+        self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
+          player.velocity;
+      end;
     end;
   end;
 
   if (eventHandler.EventButton) then
   begin
-    player.reset;
+    self.Reset;
   end;
 end;
 
@@ -189,6 +250,27 @@ begin
       end;
   end;
   KeyLabel.Text := '';
+end;
+
+procedure TGameForm.setImagetoRectangle(image: TRectangle;
+  rectangle: TRectangle);
+begin
+  rectangle.Stroke.Kind := TBrushKind.Bitmap;
+  rectangle.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+  rectangle.Fill.Kind := TBrushKind.Bitmap;
+  rectangle.Fill.Bitmap.Bitmap.Assign(image.Fill.Bitmap.Bitmap);
+end;
+
+procedure TGameForm.Reset;
+begin
+  player.Reset;
+
+  self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
+    self.ScreenLayout.width / 2 - self.RoomRectangle10.width / 2 -
+    self.RoomRectangle10.width;
+  self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
+    self.ScreenLayout.Height / 2 - self.RoomRectangle10.Height / 2 - 2 *
+    self.RoomRectangle10.Height;
 end;
 
 end.
