@@ -17,6 +17,23 @@ type
     ScreenLayout: TLayout;
     GameLoop: TTimer;
     KeyLabel: TLabel;
+    GridPanelLayout1: TGridPanelLayout;
+    Rectangle1: TRectangle;
+    Rectangle2: TRectangle;
+    Rectangle3: TRectangle;
+    Rectangle4: TRectangle;
+    Rectangle5: TRectangle;
+    Rectangle6: TRectangle;
+    Rectangle7: TRectangle;
+    Rectangle8: TRectangle;
+    Rectangle9: TRectangle;
+    Rectangle10: TRectangle;
+    Rectangle11: TRectangle;
+    Rectangle12: TRectangle;
+    Rectangle13: TRectangle;
+    Rectangle14: TRectangle;
+    Rectangle15: TRectangle;
+    Rectangle16: TRectangle;
     procedure FormCreate(Sender: TObject);
     procedure GameLoopTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -111,6 +128,7 @@ begin
     player.reset;
   end;
 end;
+
 
 { Input procedures }
 procedure TGameForm.FormKeyDown(Sender: TObject; var Key: Word;

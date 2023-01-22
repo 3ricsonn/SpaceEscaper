@@ -16,7 +16,7 @@ object GameForm: TGameForm
     Size.Width = 750.000000000000000000
     Size.Height = 500.000000000000000000
     Size.PlatformDefault = False
-    TabOrder = 1
+    TabOrder = 2
     object PlayerCharacter: TRectangle
       Position.X = 336.000000000000000000
       Position.Y = 232.000000000000000000
@@ -38,8 +38,8 @@ object GameForm: TGameForm
   end
   object ScreenLayout: TLayout
     Align = Center
-    Size.Width = 750.000000000000000000
-    Size.Height = 500.000000000000000000
+    Size.Width = 375.000000000000000000
+    Size.Height = 250.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
   end
@@ -48,5 +48,217 @@ object GameForm: TGameForm
     OnTimer = GameLoopTimer
     Left = 635
     Top = 386
+  end
+  object GridPanelLayout1: TGridPanelLayout
+    Position.X = 472.000000000000000000
+    Position.Y = 72.000000000000000000
+    Size.Width = 241.000000000000000000
+    Size.Height = 177.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    ColumnCollection = <
+      item
+        Value = 24.941636853960830000
+      end
+      item
+        Value = 25.023117678542450000
+      end
+      item
+        Value = 25.028239220629920000
+      end
+      item
+        Value = 25.007006246866800000
+      end>
+    ControlCollection = <
+      item
+        Column = 0
+        Control = Rectangle1
+        Row = 0
+      end
+      item
+        Column = 1
+        Control = Rectangle2
+        Row = 0
+      end
+      item
+        Column = 2
+        Control = Rectangle3
+        Row = 0
+      end
+      item
+        Column = 3
+        Control = Rectangle4
+        Row = 0
+      end
+      item
+        Column = 0
+        Control = Rectangle5
+        Row = 1
+      end
+      item
+        Column = 1
+        Control = Rectangle6
+        Row = 1
+      end
+      item
+        Column = 2
+        Control = Rectangle7
+        Row = 1
+      end
+      item
+        Column = 3
+        Control = Rectangle8
+        Row = 1
+      end
+      item
+        Column = 0
+        Control = Rectangle9
+        Row = 2
+      end
+      item
+        Column = 1
+        Control = Rectangle10
+        Row = 2
+      end
+      item
+        Column = 2
+        Control = Rectangle11
+        Row = 2
+      end
+      item
+        Column = 3
+        Control = Rectangle12
+        Row = 2
+      end
+      item
+        Column = 0
+        Control = Rectangle13
+        Row = 3
+      end
+      item
+        Column = 1
+        Control = Rectangle14
+        Row = 3
+      end
+      item
+        Column = 2
+        Control = Rectangle15
+        Row = 3
+      end
+      item
+        Column = 3
+        Control = Rectangle16
+        Row = 3
+      end>
+    ExpandStyle = FixedSize
+    RowCollection = <
+      item
+        Value = 25.000004074682940000
+      end
+      item
+        Value = 25.000001480604350000
+      end
+      item
+        Value = 24.999998238006110000
+      end
+      item
+        Value = 24.999996206706610000
+      end>
+    object Rectangle1: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle2: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle3: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle4: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle5: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle6: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle7: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle8: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle9: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle10: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle11: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle12: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle13: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle14: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle15: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Rectangle16: TRectangle
+      Align = Center
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
   end
 end
