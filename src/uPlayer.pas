@@ -4,7 +4,7 @@ interface
 
 uses
   System.Classes,
-  // uRoom,
+  uRoom,
   FMX.Types, FMX.Objects,
 
   uBase;
@@ -16,7 +16,7 @@ type
   private
   public
     collectiedCardPieces: integer;
-    // currentRoom: TRoom;
+    currentRoom: TRoom;
     procedure reset;
 
   end;
