@@ -2,10 +2,13 @@ unit uRoom;
 
 interface
 
+uses
+  System.Classes,uBase;
+
 type
   direction = (north, east, south, west);
 
-  TRoom = class
+  TRoom = class(TBaseGameClass)
   private
     neighbourN: TRoom;
     neighbourS: TRoom;
