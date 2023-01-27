@@ -163,7 +163,7 @@ begin
   begin
     if (player.Position.x - player.velocity > self.ScreenLayout.Position.x) then
     begin
-      if (player.Position.x - player.velocity > player.currentRoom.Position.x - player.currentRoom.size.width/2)
+      if (player.Position.x - player.velocity > player.currentRoom.Position.x)
       then
       begin
         player.setToX(player.Position.x - player.velocity);
