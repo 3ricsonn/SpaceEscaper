@@ -163,17 +163,24 @@ begin
   begin
     if (player.Position.x - player.velocity > self.ScreenLayout.Position.x) then
     begin
-      if (player.Position.x - player.velocity > player.currentRoom.Position.x)
-      then
+      if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
+        player.currentRoom.Position.x) or
+        (player.currentRoom.getneighbour(west) <> nil) then
       begin
         player.setToX(player.Position.x - player.velocity);
+      end
+      else
+      begin
+        player.setToX(player.currentRoom.Position.x +
+          self.RoomGridLayout.Position.x);
       end;
     end
     else
     begin
       player.setToX(ScreenLayout.Position.x);
-      if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x)
-      then
+      if (player.Position.x > self.RoomGridLayout.Position.x +
+        player.currentRoom.Position.x) or
+        (player.currentRoom.getneighbour(west) <> nil) then
       begin
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
           player.velocity;
@@ -187,14 +194,28 @@ begin
     if (player.Position.x + player.size.width + player.velocity <
       ScreenLayout.Position.x + ScreenLayout.width) then
     begin
-      player.setToX(player.Position.x + player.velocity);
+      if (player.Position.x + player.size.width + player.velocity <
+        self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+        player.currentRoom.size.width) or
+        (player.currentRoom.getneighbour(east) <> nil) then
+      begin
+
+        player.setToX(player.Position.x + player.velocity);
+      end
+      else
+      begin
+        player.setToX(player.currentRoom.Position.x +
+          player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+          player.size.width)
+      end;
     end
     else
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
         player.size.width);
       if (player.Position.x + player.size.width + player.velocity <
-        self.RoomGridLayout.Position.x + self.RoomGridLayout.width) then
+        self.RoomGridLayout.Position.x + player.currentRoom.Position.x) or
+        (player.currentRoom.getneighbour(east) <> nil) then
       begin
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
           player.velocity;
@@ -207,13 +228,24 @@ begin
   begin
     if (player.Position.y - player.velocity > ScreenLayout.Position.y) then
     begin
-      player.setToY(player.Position.y - player.velocity);
+      if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
+        player.currentRoom.Position.y) or
+        (player.currentRoom.getneighbour(north) <> nil) then
+      begin
+        player.setToY(player.Position.y - player.velocity);
+      end
+      else
+      begin
+        player.setToY(player.currentRoom.Position.y +
+          self.RoomGridLayout.Position.y);
+      end;
     end
     else
     begin
       player.setToY(ScreenLayout.Position.y);
-      if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y)
-      then
+      if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
+        player.currentRoom.Position.y) or
+        (player.currentRoom.getneighbour(north) <> nil) then
       begin
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
           player.velocity;
@@ -227,14 +259,28 @@ begin
     if (player.Position.y + player.velocity + player.size.Height <
       ScreenLayout.Position.y + ScreenLayout.Height) then
     begin
-      player.setToY(player.Position.y + player.velocity);
+      if (player.Position.y + player.size.Height + player.velocity <
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.Height) or
+        (player.currentRoom.getneighbour(south) <> nil) then
+      begin
+
+        player.setToY(player.Position.y + player.velocity);
+      end
+      else
+      begin
+        player.setToY(player.currentRoom.Position.y +
+          self.RoomGridLayout.Position.y - player.size.Height);
+      end;
     end
     else
     begin
       player.setToY(ScreenLayout.Position.y + ScreenLayout.Height -
         player.size.Height);
       if (player.Position.y + player.size.Height + player.velocity <
-        self.RoomGridLayout.Position.y + self.RoomGridLayout.Height) then
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.Height) or
+        (player.currentRoom.getneighbour(south) <> nil) then
       begin
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
           player.velocity;

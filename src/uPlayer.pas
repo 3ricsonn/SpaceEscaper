@@ -20,7 +20,6 @@ type
     constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
     procedure reset;
     procedure addMappiece;
-
   end;
 
 implementation
