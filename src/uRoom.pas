@@ -19,6 +19,7 @@ type
     mappiece: boolean;
   public
     function getmappiece: boolean;
+    procedure setmappiece;
     function getneighbour(d: direction): TRoom;
     procedure setneighbour(nN, nS, nE, nW: TRoom);
     procedure deletemappiece;
@@ -26,10 +27,16 @@ type
 
 implementation
 
-{ TRoom initialisation }
+{ get map piece from room }
 function TRoom.getmappiece: boolean;
 begin
   result := mappiece;
+end;
+
+{ place mappiece in room }
+procedure TRoom.setmappiece;
+begin
+  self.mappiece := True;
 end;
 
 { Get neighbour based on given direction }

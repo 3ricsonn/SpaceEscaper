@@ -47,6 +47,9 @@ type
     ImageRoomDoorRightDown: TRectangle;
     ImageRoomDoorRightUp: TRectangle;
     ImageRoomDoorLeftRightUpDown: TRectangle;
+    Rectangle1: TRectangle;
+    MapLabel: TLabel;
+    InventoryLabel: TLabel;
     procedure FormCreate(Sender: TObject);
     function createrooms: TRoom;
     procedure GameLoopTimer(Sender: TObject);
@@ -77,6 +80,8 @@ implementation
 { TGameForm initialisation }
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
+  randomize;
+
   // prepare GUI
   self.ImageContainer.Visible := False;
   self.KeyLabel.Text := '';
@@ -95,6 +100,7 @@ var
   Abstellkammer1, hallway1, Abstellkammer2, Bibliothek, hallway6, hallway2,
     hallway3, hallway4, hallway7, Schaltzentrale, Krankenstation, hallway5,
     Laderampe, Abstellkammer3, Schlafsaal2, Schlafsaal1: TRoom;
+    piece1, piece2: integer;
 begin
   // create rooms
   // first row
@@ -171,12 +177,98 @@ begin
   Schlafsaal1.setneighbour(hallway5, NIL, NIL, Schlafsaal2);
 
   result := Schaltzentrale;
+
+  // distribute mappieces
+  piece1 := random(15);
+  piece2 := random(15);
+  while piece1 = piece2 do
+    piece2 := random(15);
+
+  // place first mappiece
+  case piece1 of
+    1:
+      Abstellkammer1.setmappiece;
+    2:
+      hallway1.setmappiece;
+    3:
+      Abstellkammer2.setmappiece;
+    4:
+      Bibliothek.setmappiece;
+    5:
+      hallway6.setmappiece;
+    6:
+      hallway2.setmappiece;
+    7:
+      hallway3.setmappiece;
+    8:
+      hallway4.setmappiece;
+    9:
+      hallway7.setmappiece;
+    10:
+      Krankenstation.setmappiece;
+    11:
+      hallway5.setmappiece;
+    12:
+      Laderampe.setmappiece;
+    13:
+      Abstellkammer3.setmappiece;
+    14:
+      Schlafsaal2.setmappiece;
+    15:
+      Schlafsaal1.setmappiece;
+  end;
+
+  // second first mappiece
+  case piece2 of
+    1:
+      Abstellkammer1.setmappiece;
+    2:
+      hallway1.setmappiece;
+    3:
+      Abstellkammer2.setmappiece;
+    4:
+      Bibliothek.setmappiece;
+    5:
+      hallway6.setmappiece;
+    6:
+      hallway2.setmappiece;
+    7:
+      hallway3.setmappiece;
+    8:
+      hallway4.setmappiece;
+    9:
+      hallway7.setmappiece;
+    10:
+      Krankenstation.setmappiece;
+    11:
+      hallway5.setmappiece;
+    12:
+      Laderampe.setmappiece;
+    13:
+      Abstellkammer3.setmappiece;
+    14:
+      Schlafsaal2.setmappiece;
+    15:
+      Schlafsaal1.setmappiece;
+  end;
 end;
 
 { Game Loop }
 procedure TGameForm.GameLoopTimer(Sender: TObject);
 begin
   { update players position }
+
+  // ~~ Debbing information ~~
+  if (player.currentRoom.getmappiece) then
+  begin
+    self.MapLabel.Text := '1';
+  end
+  else
+  begin
+    self.MapLabel.Text := '0';
+  end;
+
+  self.InventoryLabel.Text := IntToStr(player.countMappieces);
 
   // == move left ==
   if (eventHandler.LeftButton) then
@@ -189,9 +281,9 @@ begin
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(west) <> nil) and
-        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
-        ROOM_PLAYER_PADDING)) then
+        (player.Position.y + player.size.height <=
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.height - ROOM_PLAYER_PADDING)) then
       // move player
       begin
         player.setToX(player.Position.x - player.velocity);
@@ -213,9 +305,9 @@ begin
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(west) <> nil) and
-        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
-        ROOM_PLAYER_PADDING)) then
+        (player.Position.y + player.size.height <=
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.height - ROOM_PLAYER_PADDING)) then
       // move map
       begin
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
@@ -252,9 +344,9 @@ begin
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
         player.currentRoom.size.width - ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(east) <> nil) and
-        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
-        ROOM_PLAYER_PADDING)) then
+        (player.Position.y + player.size.height <=
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.height - ROOM_PLAYER_PADDING)) then
       begin
         // palyer moves
         player.setToX(player.Position.x + player.velocity);
@@ -279,9 +371,9 @@ begin
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
         player.currentRoom.size.width - ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(east) <> nil) and
-        (player.Position.y + player.Size.height <= self.RoomGridLayout.Position.y +
-        player.currentRoom.Position.y + player.currentRoom.size.height -
-        ROOM_PLAYER_PADDING)) then
+        (player.Position.y + player.size.height <=
+        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+        player.currentRoom.size.height - ROOM_PLAYER_PADDING)) then
       begin
         // map moves
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
@@ -317,8 +409,8 @@ begin
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(north) <> nil) and
-        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
-        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x
+        + player.currentRoom.size.width + self.RoomGridLayout.Position.x -
         ROOM_PLAYER_PADDING)) then
       // move player
       begin
@@ -341,8 +433,8 @@ begin
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(north) <> nil) and
-        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
-        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x
+        + player.currentRoom.size.width + self.RoomGridLayout.Position.x -
         ROOM_PLAYER_PADDING)) then
       // move map
       begin
@@ -380,8 +472,8 @@ begin
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
         player.currentRoom.size.height - ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(south) <> nil) and
-        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
-        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x
+        + player.currentRoom.size.width + self.RoomGridLayout.Position.x -
         ROOM_PLAYER_PADDING)) then
       begin
         // move player
@@ -407,8 +499,8 @@ begin
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
         player.currentRoom.size.height) or
         ((player.currentRoom.getneighbour(south) <> nil) and
-        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
-        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x
+        + player.currentRoom.size.width + self.RoomGridLayout.Position.x -
         ROOM_PLAYER_PADDING)) then
       begin
         // move map
@@ -437,8 +529,13 @@ begin
   // == user event ==
   if (eventHandler.EventButton) then
   begin
-    // resets the game back to start
-    self.Reset;
+    // if map piece in room
+    if (player.currentRoom.getmappiece()) then
+    // pickup map piece: add player collection and delete from room
+    begin
+      player.currentRoom.deletemappiece;
+      player.addMappiece;
+    end;
   end;
 end;
 

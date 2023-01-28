@@ -247,16 +247,44 @@ object GameForm: TGameForm
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
     end
-    object KeyLabel: TLabel
-      StyledSettings = [Family, Style, FontColor]
-      Position.X = 538.000000000000000000
-      Position.Y = 105.000000000000000000
-      Size.Width = 129.000000000000000000
-      Size.Height = 33.000000000000000000
+    object Rectangle1: TRectangle
+      Position.X = 696.000000000000000000
+      Size.Width = 54.000000000000000000
+      Size.Height = 113.000000000000000000
       Size.PlatformDefault = False
-      TextSettings.Font.Size = 20.000000000000000000
-      Text = 'KeyLabel'
-      TabOrder = 0
+      object KeyLabel: TLabel
+        StyledSettings = [Family, Style, FontColor]
+        Position.X = 8.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 20.000000000000000000
+        Text = 'KeyLabel'
+        TabOrder = 2
+      end
+      object MapLabel: TLabel
+        StyledSettings = [Family, Style, FontColor]
+        Position.X = 9.000000000000000000
+        Position.Y = 40.000000000000000000
+        Size.Width = 32.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 20.000000000000000000
+        Text = 'MapLabel'
+        TabOrder = 1
+      end
+      object InventoryLabel: TLabel
+        StyledSettings = [Family, Style, FontColor]
+        Position.X = 8.000000000000000000
+        Position.Y = 72.000000000000000000
+        Size.Width = 33.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 20.000000000000000000
+        Text = 'InventoryLabel'
+        TabOrder = 0
+      end
     end
   end
   object ImageContainer: TLayout
