@@ -3,7 +3,9 @@ unit uRoom;
 interface
 
 uses
-  System.Classes,uBase;
+  System.Classes,
+
+  uBase;
 
 type
   direction = (north, east, south, west);
@@ -24,11 +26,13 @@ type
 
 implementation
 
+{ TRoom initialisation }
 function TRoom.getmappiece: boolean;
 begin
   result := mappiece;
 end;
 
+{ Get neighbour based on given direction }
 function TRoom.getneighbour(d: direction): TRoom;
 begin
   result := nil;
@@ -44,6 +48,8 @@ begin
   end;
 end;
 
+
+{ Set neighbores in all directions }
 procedure TRoom.setneighbour(nN, nS, nE, nW: TRoom);
 begin
   neighbourN := nN;
@@ -52,6 +58,7 @@ begin
   neighbourW := nW;
 end;
 
+{ Remove mappiece from room }
 procedure TRoom.deletemappiece;
 begin
   if mappiece = true then

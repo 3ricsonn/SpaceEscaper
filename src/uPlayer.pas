@@ -4,10 +4,9 @@ interface
 
 uses
   System.Classes,
-  uRoom,
   FMX.Types, FMX.Objects,
 
-  uBase;
+  uBase, uRoom;
 
 type
   TPlayer = class(TBaseGameClass)
@@ -18,12 +17,12 @@ type
   public
     currentRoom: TRoom;
     constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
-    procedure reset;
     procedure addMappiece;
   end;
 
 implementation
 
+{ TPlayer initialization }
 constructor TPlayer.create(AOwner: TComponent; screenObject: TRectangle);
 begin
   inherited create(AOwner, screenObject);
@@ -31,11 +30,7 @@ begin
   self.collectedMapPieces := 0;
 end;
 
-procedure TPlayer.reset;
-begin
-  self.setToPosition(375 - self.size.width / 2, 250 - self.size.height / 2);
-end;
-
+{ add mappiece to collected mappieces }
 procedure TPlayer.addMappiece;
 begin
   self.collectedMapPieces := self.collectedMapPieces + 1;
