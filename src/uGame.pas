@@ -73,6 +73,8 @@ implementation
 
 {$R *.fmx}
 
+//TODO: implement picking up mappieces (currently uses .-.)
+
 { TGameForm initialisation }
 procedure TGameForm.FormCreate(Sender: TObject);
 begin
