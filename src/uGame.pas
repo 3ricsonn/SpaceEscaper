@@ -72,8 +72,7 @@ var
 implementation
 
 {$R *.fmx}
-
-//TODO: implement picking up mappieces (currently uses .-.)
+// TODO: implement picking up mappieces (currently uses .-.)
 
 { TGameForm initialisation }
 procedure TGameForm.FormCreate(Sender: TObject);
@@ -179,8 +178,6 @@ procedure TGameForm.GameLoopTimer(Sender: TObject);
 begin
   { update players position }
 
-  // TODO: fix Wall-Glitch (Part of player can go through walls -.-)
-
   // == move left ==
   if (eventHandler.LeftButton) then
   begin
@@ -191,7 +188,10 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(west) <> nil) then
+        ((player.currentRoom.getneighbour(west) <> nil) and
+        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.size.height -
+        ROOM_PLAYER_PADDING)) then
       // move player
       begin
         player.setToX(player.Position.x - player.velocity);
@@ -212,7 +212,10 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(west) <> nil) then
+        ((player.currentRoom.getneighbour(west) <> nil) and
+        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.size.height -
+        ROOM_PLAYER_PADDING)) then
       // move map
       begin
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
@@ -228,9 +231,8 @@ begin
     end;
 
     // determine if player left room
-    if (player.Position.x + player.size.width - player.velocity <
-      self.RoomGridLayout.Position.x + player.currentRoom.Position.x) and
-      (player.currentRoom.getneighbour(west) <> nil) then
+    if (player.Position.x < self.RoomGridLayout.Position.x +
+      player.currentRoom.Position.x) then
     // switch current Room to entered room (western neighbour)
     begin
       player.currentRoom := player.currentRoom.getneighbour(west);
@@ -249,7 +251,10 @@ begin
       if (player.Position.x + player.size.width + player.velocity <
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
         player.currentRoom.size.width - ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(east) <> nil) then
+        ((player.currentRoom.getneighbour(east) <> nil) and
+        (player.Position.y + player.size.height <= self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.size.height -
+        ROOM_PLAYER_PADDING)) then
       begin
         // palyer moves
         player.setToX(player.Position.x + player.velocity);
@@ -273,7 +278,10 @@ begin
       if (player.Position.x + player.size.width + player.velocity <
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
         player.currentRoom.size.width - ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(east) <> nil) then
+        ((player.currentRoom.getneighbour(east) <> nil) and
+        (player.Position.y + player.Size.height <= self.RoomGridLayout.Position.y +
+        player.currentRoom.Position.y + player.currentRoom.size.height -
+        ROOM_PLAYER_PADDING)) then
       begin
         // map moves
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
@@ -308,7 +316,10 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(north) <> nil) then
+        ((player.currentRoom.getneighbour(north) <> nil) and
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
+        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        ROOM_PLAYER_PADDING)) then
       // move player
       begin
         player.setToY(player.Position.y - player.velocity);
@@ -329,7 +340,10 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(north) <> nil) then
+        ((player.currentRoom.getneighbour(north) <> nil) and
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
+        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        ROOM_PLAYER_PADDING)) then
       // move map
       begin
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
@@ -345,9 +359,8 @@ begin
     end;
 
     // determine if player left room
-    if (player.Position.y + player.size.height < self.RoomGridLayout.Position.y
-      + player.currentRoom.Position.y) and
-      (player.currentRoom.getneighbour(north) <> nil) then
+    if (player.Position.y < self.RoomGridLayout.Position.y +
+      player.currentRoom.Position.y) then
     // switch current Room to entered room (northern neighbour)
     begin
       player.currentRoom := player.currentRoom.getneighbour(north);
@@ -366,7 +379,10 @@ begin
       if (player.Position.y + player.size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
         player.currentRoom.size.height - ROOM_PLAYER_PADDING) or
-        (player.currentRoom.getneighbour(south) <> nil) then
+        ((player.currentRoom.getneighbour(south) <> nil) and
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
+        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        ROOM_PLAYER_PADDING)) then
       begin
         // move player
         player.setToY(player.Position.y + player.velocity);
@@ -390,7 +406,10 @@ begin
       if (player.Position.y + player.size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
         player.currentRoom.size.height) or
-        (player.currentRoom.getneighbour(south) <> nil) then
+        ((player.currentRoom.getneighbour(south) <> nil) and
+        (player.Position.x + player.size.width <= player.currentRoom.Position.x +
+        player.currentRoom.size.width + self.RoomGridLayout.Position.x -
+        ROOM_PLAYER_PADDING)) then
       begin
         // move map
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
@@ -408,8 +427,7 @@ begin
 
     // determine if player left room
     if (player.Position.y > self.RoomGridLayout.Position.y +
-      player.currentRoom.Position.y + player.currentRoom.size.height) and
-      (player.currentRoom.getneighbour(south) <> nil) then
+      player.currentRoom.Position.y + player.currentRoom.size.height) then
     // switch current Room to entered room (southern neighbour)
     begin
       player.currentRoom := player.currentRoom.getneighbour(south);
