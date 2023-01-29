@@ -288,9 +288,6 @@ begin
 
   self.InventoryLabel.Text := IntToStr(player.countMappieces);
 
-
-  // TODO: Bug where player can go through walls
-
   // == move left ==
   if (eventHandler.LeftButton) then
   begin
@@ -343,8 +340,16 @@ begin
         DOOR_FRAME_SIZE))) then
       // move map
       begin
-        self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
-          player.velocity;
+        // determine of player hits door frame
+        if (not(player.Position.y + player.Size.height >
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height) or
+          (player.Position.x - player.velocity > self.RoomGridLayout.Position.x
+          + player.currentRoom.Position.x + DOOR_FRAME_SIZE)) then
+        begin
+          self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x +
+            player.velocity;
+        end;
       end
 
       else
@@ -420,10 +425,18 @@ begin
         (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
         + player.currentRoom.Position.y + player.currentRoom.Size.height -
         DOOR_FRAME_SIZE)) then
+      // map moves
       begin
-        // map moves
-        self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
-          player.velocity;
+        // determine of player hits door frame
+        if (not(player.Position.y + player.Size.height >
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height) or
+          (player.Position.x - player.velocity > self.RoomGridLayout.Position.x
+          + player.currentRoom.Position.x + DOOR_FRAME_SIZE)) then
+        begin
+          self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
+            player.velocity;
+        end;
       end
 
       else
@@ -496,8 +509,16 @@ begin
         DOOR_FRAME_SIZE)) then
       // move map
       begin
-        self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
-          player.velocity;
+        // determine of player hits door frame
+        if (not(player.Position.x + player.Size.Width >
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.Width) or (player.Position.y - player.velocity
+          > self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          DOOR_FRAME_SIZE)) then
+        begin
+          self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
+            player.velocity;
+        end;
       end
 
       else
@@ -573,10 +594,19 @@ begin
         (player.Position.x + player.Size.Width < self.RoomGridLayout.Position.x
         + player.currentRoom.Position.x + player.currentRoom.Size.Width -
         DOOR_FRAME_SIZE)) then
+      // move map
       begin
-        // move map
-        self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
-          player.velocity;
+        // determine of player hits door frame
+        if (not(player.Position.x + player.Size.Width >
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.Width) or
+          (player.Position.y + player.Size.height + player.velocity <
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height - DOOR_FRAME_SIZE)) then
+        begin
+          self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
+            player.velocity;
+        end;
       end
 
       else
