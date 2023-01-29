@@ -247,9 +247,10 @@ object GameForm: TGameForm
       Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
     end
-    object Rectangle1: TRectangle
-      Position.X = 696.000000000000000000
-      Size.Width = 54.000000000000000000
+    object DebugConsole: TRectangle
+      Position.X = 704.000000000000000000
+      Position.Y = -5.000000000000000000
+      Size.Width = 46.000000000000000000
       Size.Height = 113.000000000000000000
       Size.PlatformDefault = False
       object KeyLabel: TLabel
@@ -285,6 +286,22 @@ object GameForm: TGameForm
         Text = 'InventoryLabel'
         TabOrder = 0
       end
+    end
+    object MapPieceRectangle1: TRectangle
+      ClipParent = True
+      Position.X = 408.000000000000000000
+      Position.Y = 160.000000000000000000
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object MapPieceRectangle2: TRectangle
+      ClipParent = True
+      Position.X = 480.000000000000000000
+      Position.Y = 200.000000000000000000
+      Size.Width = 25.000000000000000000
+      Size.Height = 25.000000000000000000
+      Size.PlatformDefault = False
     end
   end
   object ImageContainer: TLayout

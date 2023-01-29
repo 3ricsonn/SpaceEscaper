@@ -40,7 +40,19 @@ type
     property Size: _TSize read _readSize;
   end;
 
+function FRamdomRange(a: single; b: single): single;
+
 implementation
+
+// generate random number in an given interval
+function FRamdomRange(a: single; b: single): single;
+var
+  r: single;
+begin
+  randomize;
+  r := random;
+  result := a + (b - a) * r;
+end;
 
 { TBaseGameClass initialisation }
 constructor TBaseGameClass.create(AOwner: TComponent; screenObject: TRectangle);
