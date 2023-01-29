@@ -4,28 +4,42 @@ interface
 
 uses
   System.Classes,
-  uRoom,
   FMX.Types, FMX.Objects,
 
-  uBase;
+  uBase, uRoom;
 
 type
   TPlayer = class(TBaseGameClass)
   const
     velocity = 10;
   private
+    _collectedMapPieces: integer;
   public
-    collectiedCardPieces: integer;
     currentRoom: TRoom;
-    procedure reset;
-
+    constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
+    procedure addMappiece;
+    function countMappieces: integer;
   end;
 
 implementation
 
-procedure TPlayer.reset;
+{ TPlayer initialization }
+constructor TPlayer.create(AOwner: TComponent; screenObject: TRectangle);
 begin
-  self.setToPosition(375 - self.size.width/2, 250 - self.size.height/2);
+  inherited create(AOwner, screenObject);
+
+  self._collectedMapPieces := 0;
+end;
+
+{ add mappiece to collected mappieces }
+procedure TPlayer.addMappiece;
+begin
+  self._collectedMapPieces := self._collectedMapPieces + 1;
+end;
+
+function TPlayer.countMappieces: Integer;
+begin
+  result := self._collectedMapPieces;
 end;
 
 end.

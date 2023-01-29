@@ -28,13 +28,11 @@ type
   TBaseGameClass = class(TFMXObject)
   private
     _screenObject: TRectangle;
-    _picturePath: string;
     function _readPos: _TPos;
     function _readSize: _TSize;
-    procedure bindBitmapToObject(Bitmap: TBitmap);
   public
     constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
-    procedure setImage(imagePath: string);
+    procedure bindBitmapToObject(image: TRectangle);
     procedure setToPosition(x: single; y: single);
     procedure setToX(x: single);
     procedure setToY(y: single);
@@ -42,9 +40,21 @@ type
     property Size: _TSize read _readSize;
   end;
 
+function FRamdomRange(a: single; b: single): single;
+
 implementation
 
-{ * TBaseGameClass * }
+// generate random number in an given interval
+function FRamdomRange(a: single; b: single): single;
+var
+  r: single;
+begin
+  randomize;
+  r := random;
+  result := a + (b - a) * r;
+end;
+
+{ TBaseGameClass initialisation }
 constructor TBaseGameClass.create(AOwner: TComponent; screenObject: TRectangle);
 begin
   inherited create(AOwner);
@@ -52,39 +62,45 @@ begin
   screenObject.TagObject := self;
 end;
 
+{ Get Screen Objects Position }
 function TBaseGameClass._readPos: _TPos;
 begin
   result.x := self._screenObject.Position.x;
   result.y := self._screenObject.Position.y;
 end;
 
+{ Get Screen Objects Dimensions }
 function TBaseGameClass._readSize: _TSize;
 begin
   result.width := self._screenObject.width;
   result.height := self._screenObject.height;
 end;
 
+{ Set Screen Objects Position }
 procedure TBaseGameClass.setToPosition(x: single; y: single);
 begin
   self._screenObject.Position.x := x;
   self._screenObject.Position.y := y;
 end;
 
+{ Set Screen Objects x-Value }
 procedure TBaseGameClass.setToX(x: single);
 begin
   self._screenObject.Position.x := x;
 end;
 
+{ Set Screen Objects y-Value }
 procedure TBaseGameClass.setToY(y: single);
 begin
   self._screenObject.Position.y := y;
 end;
 
-procedure TBaseGameClass.bindBitmapToObject(Bitmap: TBitmap);
+procedure TBaseGameClass.bindBitmapToObject(image: TRectangle);
 begin
+  self._screenObject.Stroke.Kind := TBrushKind.Bitmap;
+  self._screenObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+  self._screenObject.Fill.Kind := TBrushKind.Bitmap;
+  self._screenObject.Fill.Bitmap.Bitmap.Assign(image.Fill.Bitmap.Bitmap);
 end;
 
-procedure TBaseGameClass.setImage(imagePath: string);
-begin
-end;
 end.
