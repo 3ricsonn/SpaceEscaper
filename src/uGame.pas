@@ -71,7 +71,7 @@ type
 const
   ROOM_PLAYER_PADDING = 10;
   DOOR_SIZE = 125;
-  DOOR_FRAME_SIZE = 80;
+  DOOR_FRAME_SIZE = 85;
 
 var
   GameForm: TGameForm;
@@ -288,6 +288,9 @@ begin
 
   self.InventoryLabel.Text := IntToStr(player.countMappieces);
 
+
+  // TODO: Bug where player can go through walls
+
   // == move left ==
   if (eventHandler.LeftButton) then
   begin
@@ -299,17 +302,22 @@ begin
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(west) <> nil) and
-        (player.Position.y + player.size.height <=
-        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height - ROOM_PLAYER_PADDING) and
         ((player.Position.y > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + DOOR_FRAME_SIZE) and
-        (player.Position.y + player.size.height < self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
+        (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.Size.height -
         DOOR_FRAME_SIZE))) then
       // move player
       begin
-        player.setToX(player.Position.x - player.velocity);
+        // determine of player hits door frame
+        if (not(player.Position.y + player.Size.height >
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height) or
+          (player.Position.x - player.velocity > self.RoomGridLayout.Position.x
+          + player.currentRoom.Position.x + DOOR_FRAME_SIZE)) then
+        begin
+          player.setToX(player.Position.x - player.velocity);
+        end;
       end
 
       else
@@ -328,13 +336,10 @@ begin
       if (player.Position.x - player.velocity > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + ROOM_PLAYER_PADDING) or
         ((player.currentRoom.getneighbour(west) <> nil) and
-        (player.Position.y + player.size.height <=
-        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height - ROOM_PLAYER_PADDING) and
         ((player.Position.y > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + DOOR_FRAME_SIZE) and
-        (player.Position.y + player.size.height < self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
+        (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.Size.height -
         DOOR_FRAME_SIZE))) then
       // move map
       begin
@@ -363,34 +368,40 @@ begin
   if (eventHandler.RightButton) then
   begin
     // determine if player of map have to be moved
-    if (player.Position.x + player.size.Width + player.velocity <
+    if (player.Position.x + player.Size.Width + player.velocity <
       ScreenLayout.Position.x + ScreenLayout.Width) then
     // player has to be moved
     begin
       // determine if player reached room boundry or if room has adjacent neighbour
-      if (player.Position.x + player.size.Width + player.velocity <
+      if (player.Position.x + player.Size.Width + player.velocity <
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
-        player.currentRoom.size.Width - ROOM_PLAYER_PADDING) or
-        ((player.currentRoom.getneighbour(east) <> nil) and
-        (player.Position.y + player.size.height <=
-        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height - ROOM_PLAYER_PADDING) and
+        player.currentRoom.Size.Width - ROOM_PLAYER_PADDING) or
+        (player.currentRoom.getneighbour(east) <> nil) and
         ((player.Position.y > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + DOOR_FRAME_SIZE) and
-        (player.Position.y + player.size.height < self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.Size.height -
+        DOOR_FRAME_SIZE)) then
+      // palyer moves
       begin
-        // palyer moves
-        player.setToX(player.Position.x + player.velocity);
+        // determine of player hits door frame
+        if (not(player.Position.y + player.Size.height >
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height) or
+          (player.Position.x + player.Size.Width + player.velocity <
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.Width - DOOR_FRAME_SIZE)) then
+        begin
+          player.setToX(player.Position.x + player.velocity);
+        end;
       end
 
       else
       // player hits wall
       begin
         player.setToX(player.currentRoom.Position.x +
-          player.currentRoom.size.Width + self.RoomGridLayout.Position.x -
-          player.size.Width - ROOM_PLAYER_PADDING)
+          player.currentRoom.Size.Width + self.RoomGridLayout.Position.x -
+          player.Size.Width - ROOM_PLAYER_PADDING)
       end;
     end
 
@@ -398,20 +409,17 @@ begin
     // map is to be moeved
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.Width -
-        player.size.Width);
+        player.Size.Width);
       // determine if player reached room boundry or if room has adjacent neighbour
-      if (player.Position.x + player.size.Width + player.velocity <
+      if (player.Position.x + player.Size.Width + player.velocity <
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
-        player.currentRoom.size.Width - ROOM_PLAYER_PADDING) or
-        ((player.currentRoom.getneighbour(east) <> nil) and
-        (player.Position.y + player.size.height <=
-        self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height - ROOM_PLAYER_PADDING) and
+        player.currentRoom.Size.Width - ROOM_PLAYER_PADDING) or
+        (player.currentRoom.getneighbour(east) <> nil) and
         ((player.Position.y > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + DOOR_FRAME_SIZE) and
-        (player.Position.y + player.size.height < self.RoomGridLayout.Position.y
-        + player.currentRoom.Position.y + player.currentRoom.size.height -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
+        + player.currentRoom.Position.y + player.currentRoom.Size.height -
+        DOOR_FRAME_SIZE)) then
       begin
         // map moves
         self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
@@ -421,15 +429,15 @@ begin
       else
       // player hits wall
       begin
-        self.RoomGridLayout.Position.x := player.Position.x + player.size.Width
-          - player.currentRoom.Position.x - player.currentRoom.size.Width +
+        self.RoomGridLayout.Position.x := player.Position.x + player.Size.Width
+          - player.currentRoom.Position.x - player.currentRoom.Size.Width +
           ROOM_PLAYER_PADDING;
       end;
     end;
 
     // determine if player left room
     if (player.Position.x > self.RoomGridLayout.Position.x +
-      player.currentRoom.Position.x + player.currentRoom.size.Width) then
+      player.currentRoom.Position.x + player.currentRoom.Size.Width) then
     // switch current Room to entered room (eastern neighbour)
     begin
       player.currentRoom := player.currentRoom.getneighbour(east);
@@ -446,18 +454,23 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
-        ((player.currentRoom.getneighbour(north) <> nil) and
-        (player.Position.x + player.size.Width <= player.currentRoom.Position.x
-        + player.currentRoom.size.Width + self.RoomGridLayout.Position.x -
-        ROOM_PLAYER_PADDING) and
+        (player.currentRoom.getneighbour(north) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
-        (player.Position.x + player.size.Width < self.RoomGridLayout.Position.x
-        + player.currentRoom.Position.x + player.currentRoom.size.Width -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.x + player.Size.Width < self.RoomGridLayout.Position.x
+        + player.currentRoom.Position.x + player.currentRoom.Size.Width -
+        DOOR_FRAME_SIZE)) then
       // move player
       begin
-        player.setToY(player.Position.y - player.velocity);
+        // determine of player hits door frame
+        if (not(player.Position.x + player.Size.Width >
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.Width) or (player.Position.y - player.velocity
+          > self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          DOOR_FRAME_SIZE)) then
+        begin
+          player.setToY(player.Position.y - player.velocity);
+        end;
       end
 
       else
@@ -475,15 +488,12 @@ begin
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + ROOM_PLAYER_PADDING) or
-        ((player.currentRoom.getneighbour(north) <> nil) and
-        (player.Position.x + player.size.Width <= player.currentRoom.Position.x
-        + player.currentRoom.size.Width + self.RoomGridLayout.Position.x -
-        ROOM_PLAYER_PADDING) and
+        (player.currentRoom.getneighbour(north) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
-        (player.Position.x + player.size.Width < self.RoomGridLayout.Position.x
-        + player.currentRoom.Position.x + player.currentRoom.size.Width -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.x + player.Size.Width < self.RoomGridLayout.Position.x
+        + player.currentRoom.Position.x + player.currentRoom.Size.Width -
+        DOOR_FRAME_SIZE)) then
       // move map
       begin
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y +
@@ -511,34 +521,40 @@ begin
   if (eventHandler.DownButton) then
   begin
     // determine if player of map have to be moved
-    if (player.Position.y + player.velocity + player.size.height <
+    if (player.Position.y + player.velocity + player.Size.height <
       ScreenLayout.Position.y + ScreenLayout.height) then
     // player has to be moved
     begin
       // determine if player reached room boundry or if room has adjacent neighbour
-      if (player.Position.y + player.size.height + player.velocity <
+      if (player.Position.y + player.Size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height - ROOM_PLAYER_PADDING) or
-        ((player.currentRoom.getneighbour(south) <> nil) and
-        (player.Position.x + player.size.Width <= player.currentRoom.Position.x
-        + player.currentRoom.size.Width + self.RoomGridLayout.Position.x -
-        ROOM_PLAYER_PADDING) and
+        player.currentRoom.Size.height - ROOM_PLAYER_PADDING) or
+        (player.currentRoom.getneighbour(south) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
-        (player.Position.x + player.size.Width < self.RoomGridLayout.Position.x
-        + player.currentRoom.Position.x + player.currentRoom.size.Width -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.x + player.Size.Width < self.RoomGridLayout.Position.x
+        + player.currentRoom.Position.x + player.currentRoom.Size.Width -
+        DOOR_FRAME_SIZE)) then
+      // move player
       begin
-        // move player
-        player.setToY(player.Position.y + player.velocity);
+        // determine of player hits door frame
+        if (not(player.Position.x + player.Size.Width >
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.Width) or
+          (player.Position.y + player.Size.height + player.velocity <
+          self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
+          player.currentRoom.Size.height - DOOR_FRAME_SIZE)) then
+        begin
+          player.setToY(player.Position.y + player.velocity);
+        end;
       end
 
       else
       // player hits a wall
       begin
         player.setToY(player.currentRoom.Position.y +
-          self.RoomGridLayout.Position.y + player.currentRoom.size.height -
-          player.size.height - ROOM_PLAYER_PADDING);
+          self.RoomGridLayout.Position.y + player.currentRoom.Size.height -
+          player.Size.height - ROOM_PLAYER_PADDING);
       end;
     end
 
@@ -546,20 +562,17 @@ begin
     // map is to be moeved
     begin
       player.setToY(ScreenLayout.Position.y + ScreenLayout.height -
-        player.size.height);
+        player.Size.height);
       // determine if player reached room boundry or if room has adjacent neighbour
-      if (player.Position.y + player.size.height + player.velocity <
+      if (player.Position.y + player.Size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.size.height) or
-        ((player.currentRoom.getneighbour(south) <> nil) and
-        (player.Position.x + player.size.Width <= player.currentRoom.Position.x
-        + player.currentRoom.size.Width + self.RoomGridLayout.Position.x -
-        ROOM_PLAYER_PADDING) and
+        player.currentRoom.Size.height) or
+        (player.currentRoom.getneighbour(south) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
-        (player.Position.x + player.size.Width < self.RoomGridLayout.Position.x
-        + player.currentRoom.Position.x + player.currentRoom.size.Width -
-        DOOR_FRAME_SIZE))) then
+        (player.Position.x + player.Size.Width < self.RoomGridLayout.Position.x
+        + player.currentRoom.Position.x + player.currentRoom.Size.Width -
+        DOOR_FRAME_SIZE)) then
       begin
         // move map
         self.RoomGridLayout.Position.y := self.RoomGridLayout.Position.y -
@@ -569,15 +582,15 @@ begin
       else
       // player hits wall
       begin
-        self.RoomGridLayout.Position.y := player.Position.y + player.size.height
-          - player.currentRoom.Position.y - player.currentRoom.size.height +
+        self.RoomGridLayout.Position.y := player.Position.y + player.Size.height
+          - player.currentRoom.Position.y - player.currentRoom.Size.height +
           ROOM_PLAYER_PADDING;
       end;
     end;
 
     // determine if player left room
     if (player.Position.y > self.RoomGridLayout.Position.y +
-      player.currentRoom.Position.y + player.currentRoom.size.height) then
+      player.currentRoom.Position.y + player.currentRoom.Size.height) then
     // switch current Room to entered room (southern neighbour)
     begin
       player.currentRoom := player.currentRoom.getneighbour(south);
@@ -675,8 +688,8 @@ begin
     player.currentRoom.Position.y + player.currentRoom.size.height -
     objectHeight - ROOM_PLAYER_PADDING)); * }
   point := TPointF.create(FRamdomRange(ROOM_PLAYER_PADDING,
-    refRoom.size.Width - objectWidth - ROOM_PLAYER_PADDING),
-    FRamdomRange(ROOM_PLAYER_PADDING, refRoom.size.height - objectHeight -
+    refRoom.Size.Width - objectWidth - ROOM_PLAYER_PADDING),
+    FRamdomRange(ROOM_PLAYER_PADDING, refRoom.Size.height - objectHeight -
     ROOM_PLAYER_PADDING));
   pos := TPosition.create(point);
 
@@ -687,8 +700,8 @@ end;
 procedure TGameForm.Reset;
 begin
   // center player
-  player.setToPosition(self.HUDLayout.Width / 2 - player.size.Width / 2,
-    self.HUDLayout.height / 2 - player.size.height / 2);
+  player.setToPosition(self.HUDLayout.Width / 2 - player.Size.Width / 2,
+    self.HUDLayout.height / 2 - player.Size.height / 2);
 
   // center start room
   self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
