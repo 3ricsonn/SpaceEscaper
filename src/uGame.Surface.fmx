@@ -2,4 +2,8 @@ inherited GameForm_Surface: TGameForm_Surface
   ClientHeight = 1920
   ClientWidth = 1080
   DesignerMasterStyle = 0
+  inherited PlayerLayout: TLayout
+    Size.Width = 1080.000000000000000000
+    Size.Height = 1920.000000000000000000
+  end
 end

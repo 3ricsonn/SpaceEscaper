@@ -82,9 +82,6 @@ Coordinates=293,124,175,36
 [ImageRoomDoorLeftUpDown]
 Coordinates=101,124,182,36
 
-[HUDLayout]
-Coordinates=10,124,81,36
-
 [InventoryLabel]
 Coordinates=91,10,99,58
 
@@ -118,4 +115,7 @@ Visible=True
 
 [DebugConsole]
 Coordinates=386,170,80,36
+
+[ItemsLayout]
+Coordinates=10,124,81,36
 
