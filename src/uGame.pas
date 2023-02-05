@@ -52,7 +52,6 @@ type
     InventoryLabel: TLabel;
     MapPieceRectangle1: TRectangle;
     MapPieceRectangle2: TRectangle;
-    ImageMapPiece: TRectangle;
     PlayerLayout: TLayout;
     procedure FormCreate(Sender: TObject);
     function createrooms: TRoom;
@@ -61,7 +60,6 @@ type
       Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
-    procedure bindBitmapToRect(screenObject: TRectangle; image: TRectangle);
     procedure Reset;
   private
     roomItems: array [0 .. 1] of TRectangle;
@@ -74,6 +72,7 @@ const
   MAP_PIECE_PADDING = 30;
   DOOR_SIZE = 125;
   DOOR_FRAME_SIZE = 85;
+  INTERACTION_RADIUS = 100;
 
 var
   GameForm: TGameForm;
@@ -94,9 +93,7 @@ begin
   // prepare GUI
   self.ImageContainer.Visible := False;
   self.MapPieceRectangle1.Visible := False;
-  self.bindBitmapToRect(self.MapPieceRectangle1, self.ImageMapPiece);
   self.MapPieceRectangle2.Visible := False;
-  self.bindBitmapToRect(self.MapPieceRectangle2, self.ImageMapPiece);
   self.KeyLabel.Text := '';
 
   // create item list distributed through the maze
@@ -675,8 +672,14 @@ begin
   // == user event ==
   if (eventHandler.EventButton) then
   begin
-    // if map piece in room
-    if (player.currentRoom.getmappiece() <> nil) then
+    // if map piece in room and the player stands close to the map piece
+    if (player.currentRoom.getmappiece() <> nil) and
+      (INTERACTION_RADIUS >= sqrt(sqr(player.currentRoom.getmappiece()
+      .Position.y + player.currentRoom.getmappiece().height / 2 -
+      (player.Position.y + player.Size.height / 2)) +
+      sqr(player.currentRoom.getmappiece().Position.x +
+      player.currentRoom.getmappiece().width / 2 - (player.Position.x +
+      player.Size.width / 2)))) then
     // pickup map piece: add player collection and delete from room
     begin
       player.currentRoom.deletemappiece;
@@ -745,16 +748,6 @@ begin
       end;
   end;
   KeyLabel.Text := '';
-end;
-
-{ Bind bidmap to a rectangle on screen }
-procedure TGameForm.bindBitmapToRect(screenObject: TRectangle;
-  image: TRectangle);
-begin
-  screenObject.Stroke.Kind := TBrushKind.Bitmap;
-  screenObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
-  screenObject.Fill.Kind := TBrushKind.Bitmap;
-  screenObject.Fill.Bitmap.Bitmap.Assign(image.Fill.Bitmap.Bitmap);
 end;
 
 { Resets Game State }

@@ -1,3 +1,8 @@
 inherited GameForm_Windows: TGameForm_Windows
   DesignerMasterStyle = 0
+  inherited ItemsLayout: TLayout
+    inherited MapPieceRectangle1: TRectangle
+      Stroke.Thickness = 0.000000000000000000
+    end
+  end
 end
