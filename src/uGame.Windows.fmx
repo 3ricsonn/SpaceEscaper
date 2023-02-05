@@ -1,5 +1,9 @@
 inherited GameForm_Windows: TGameForm_Windows
   DesignerMasterStyle = 0
+  inherited ScreenLayout: TLayout
+    Position.X = 186.999984741210900000
+    Position.Y = 125.000000000000000000
+  end
   inherited ItemsLayout: TLayout
     inherited MapPieceRectangle1: TRectangle
       Stroke.Thickness = 0.000000000000000000

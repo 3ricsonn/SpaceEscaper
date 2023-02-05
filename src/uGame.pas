@@ -74,6 +74,8 @@ const
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
 
+  DEBUGGING = True;
+
 var
   GameForm: TGameForm;
   eventHandler: TEventHandler;
@@ -90,24 +92,26 @@ procedure TGameForm.FormCreate(Sender: TObject);
 begin
   randomize;
 
-  // prepare GUI
-  self.ImageContainer.Visible := False;
-  self.MapPieceRectangle1.Visible := False;
-  self.MapPieceRectangle2.Visible := False;
-  self.KeyLabel.Text := '';
-
   // create item list distributed through the maze
   self.roomItems[0] := self.MapPieceRectangle1;
   self.roomItems[1] := self.MapPieceRectangle2;
+
+  // prepare GUI
+  self.ImageContainer.Visible := False;
+  self.KeyLabel.Text := '';
+
+  if not DEBUGGING then
+  begin
+    self.MapPieceRectangle1.Visible := False;
+    self.MapPieceRectangle2.Visible := False;
+    self.DebugConsole.Visible := False;
+  end;
 
   // create and initialise player
   player := TPlayer.create(self, self.PlayerCharacter);
 
   // move to start position
   self.Reset;
-
-  // create rooms
-  player.currentRoom := self.createrooms();
 end;
 
 { Create Roomlayout of Labyrinth }
@@ -347,7 +351,7 @@ begin
     begin
 
       // hide map piece in left room
-      if (player.currentRoom.getmappiece <> nil) then
+      if (player.currentRoom.getmappiece <> nil) and not DEBUGGING then
       begin
         player.currentRoom.getmappiece().Visible := False;
       end;
@@ -451,7 +455,7 @@ begin
     // switch current Room to entered room (eastern neighbour)
     begin
       // hide map piece in left room
-      if (player.currentRoom.getmappiece <> nil) then
+      if (player.currentRoom.getmappiece <> nil) and not DEBUGGING then
       begin
         player.currentRoom.getmappiece().Visible := False;
       end;
@@ -548,7 +552,7 @@ begin
     // switch current Room to entered room (northern neighbour)
     begin
       // hide map piece in left room
-      if (player.currentRoom.getmappiece <> nil) then
+      if (player.currentRoom.getmappiece <> nil) and not DEBUGGING then
       begin
         player.currentRoom.getmappiece().Visible := False;
       end;
@@ -653,7 +657,7 @@ begin
     // switch current Room to entered room (southern neighbour)
     begin
       // hide map piece in left room
-      if (player.currentRoom.getmappiece <> nil) then
+      if (player.currentRoom.getmappiece <> nil) and not DEBUGGING then
       begin
         player.currentRoom.getmappiece().Visible := False;
       end;
@@ -764,6 +768,9 @@ begin
   self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
     self.ScreenLayout.height / 2 - self.RoomRectangle10.height / 2 - 2 *
     self.RoomRectangle10.height;
+
+  // create rooms
+  player.currentRoom := self.createrooms();
 end;
 
 end.
