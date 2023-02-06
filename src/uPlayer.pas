@@ -37,7 +37,7 @@ begin
   self._collectedMapPieces := self._collectedMapPieces + 1;
 end;
 
-function TPlayer.countMappieces: Integer;
+function TPlayer.countMappieces: integer;
 begin
   result := self._collectedMapPieces;
 end;

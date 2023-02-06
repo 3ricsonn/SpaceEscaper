@@ -6,7 +6,8 @@ uses
   uGame in 'src\uGame.pas' {GameForm},
   uPlayer in 'src\uPlayer.pas' {$R *.res},
   uBase in 'src\uBase.pas',
-  uRoom in 'src\uRoom.pas';
+  uRoom in 'src\uRoom.pas',
+  uMapDistributionTest in 'tests\uMapDistributionTest.pas';
 
 {$R *.res}
 
