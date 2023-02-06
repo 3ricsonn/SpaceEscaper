@@ -31,7 +31,8 @@ type
     function _readPos: _TPos;
     function _readSize: _TSize;
   public
-    constructor create(AOwner: TComponent; screenObject: TRectangle); reintroduce;
+    constructor create(AOwner: TComponent; screenObject: TRectangle);
+      reintroduce;
     procedure bindBitmapToObject(image: TRectangle);
     procedure setToPosition(x: single; y: single);
     procedure setToX(x: single);

@@ -8,7 +8,7 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls,
 
-  UBase, uPlayer, uRoom;
+  UBase, uPlayer, uRoom, uMapDistributionTest;
 
 type
   TGameForm = class(TForm)
@@ -72,7 +72,9 @@ const
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
 
-  DEBUGGING = False; // set to false to turn of debugging mode
+  // Debugging flags
+  DEBUGGING = True; // set to false to turn of debugging mode
+  TEST_MAP_DIST = True; // set to false to turn of map distribution test
 
 var
   GameForm: TGameForm;
@@ -110,6 +112,18 @@ begin
 
   // move to start position
   self.Reset;
+
+  if DEBUGGING and TEST_MAP_DIST then
+  begin
+    if (testMapDistribution(player.currentRoom)) then
+    begin
+      showmessage('Map Distribution Successful');
+    end
+    else
+    begin
+      showmessage('Map Distribution failed');
+    end;
+  end;
 end;
 
 { Create Roomlayout of Labyrinth }
@@ -152,7 +166,7 @@ begin
   hallway7.bindBitmapToObject(self.ImageRoomDoorUpDown);
 
   Schaltzentrale := TRoom.create(self, self.RoomRectangle10);
-  //Schaltzentrale.bindBitmapToObject(self.ImageRoomDoorRightUpDown);
+  // Schaltzentrale.bindBitmapToObject(self.ImageRoomDoorRightUpDown);
 
   Krankenstation := TRoom.create(self, self.RoomRectangle11);
   Krankenstation.bindBitmapToObject(self.ImageRoomDoorLeftUp);
@@ -202,7 +216,7 @@ begin
   begin
     repeat
       piece := random(15)
-    until last_piece <> piece;
+    until (last_piece <> piece) and (piece <> 0);
 
     case piece of
       1:
