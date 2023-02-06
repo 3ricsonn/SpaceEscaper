@@ -31,7 +31,7 @@ type
     function _readPos: _TPos;
     function _readSize: _TSize;
   public
-    constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
+    constructor create(AOwner: TComponent; screenObject: TRectangle); reintroduce;
     procedure bindBitmapToObject(image: TRectangle);
     procedure setToPosition(x: single; y: single);
     procedure setToX(x: single);
@@ -98,7 +98,6 @@ end;
 procedure TBaseGameClass.bindBitmapToObject(image: TRectangle);
 begin
   self._screenObject.Stroke.Kind := TBrushKind.Bitmap;
-  //self._screenObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
   self._screenObject.Fill.Kind := TBrushKind.Bitmap;
   self._screenObject.Fill.Bitmap.Bitmap.Assign(image.Fill.Bitmap.Bitmap);
 end;

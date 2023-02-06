@@ -72,7 +72,7 @@ const
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
 
-  DEBUGGING = True; // set to false to turn of debugging mode
+  DEBUGGING = False; // set to false to turn of debugging mode
 
 var
   GameForm: TGameForm;
