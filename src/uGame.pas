@@ -34,18 +34,16 @@ type
     RoomRectangle14: TRectangle;
     RoomRectangle15: TRectangle;
     RoomRectangle16: TRectangle;
-    ImageRoomDoorDown: TRectangle;
+    ImageRoomDoorLeftRightDown: TRectangle;
     ImageContainer: TLayout;
     ImageRoomDoorLeft: TRectangle;
     ImageRoomDoorRight: TRectangle;
     ImageRoomDoorUp: TRectangle;
-    ImageRoomDoorLeftDown: TRectangle;
+    ImageRoomDoorDown: TRectangle;
     ImageRoomDoorUpDown: TRectangle;
     ImageRoomDoorLeftUpDown: TRectangle;
-    ImageRoomDoorLeftRight: TRectangle;
     ImageRoomDoorLeftUp: TRectangle;
     ImageRoomDoorRightDown: TRectangle;
-    ImageRoomDoorRightUp: TRectangle;
     ImageRoomDoorLeftRightUpDown: TRectangle;
     DebugConsole: TRectangle;
     MapLabel: TLabel;
@@ -74,7 +72,7 @@ const
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
 
-  DEBUGGING = True;
+  DEBUGGING = True; // set to false to turn of debugging mode
 
 var
   GameForm: TGameForm;
@@ -128,7 +126,7 @@ begin
   Abstellkammer1.bindBitmapToObject(self.ImageRoomDoorRight);
 
   hallway1 := TRoom.create(self, self.RoomRectangle2);
-  // hallway1.bindBitmapToObject(self.ImageRoomDoorLeftRightDown)
+  hallway1.bindBitmapToObject(self.ImageRoomDoorLeftRightDown);
 
   Abstellkammer2 := TRoom.create(self, self.RoomRectangle3);
   Abstellkammer2.bindBitmapToObject(self.ImageRoomDoorLeft);
@@ -144,7 +142,7 @@ begin
   hallway2.bindBitmapToObject(self.ImageRoomDoorLeftRightUpDown);
 
   hallway3 := TRoom.create(self, self.RoomRectangle7);
-  // hallway3.bindBitmapToObject(self.ImageRoomDoorLeftRightDown);
+  hallway3.bindBitmapToObject(self.ImageRoomDoorLeftRightDown);
 
   hallway4 := TRoom.create(self, self.RoomRectangle8);
   hallway4.bindBitmapToObject(self.ImageRoomDoorLeftUpDown);
@@ -154,7 +152,7 @@ begin
   hallway7.bindBitmapToObject(self.ImageRoomDoorUpDown);
 
   Schaltzentrale := TRoom.create(self, self.RoomRectangle10);
-  // Schaltzentrale.bindBitmapToObject(self.ImageRoomDoorRightUpDown);
+  //Schaltzentrale.bindBitmapToObject(self.ImageRoomDoorRightUpDown);
 
   Krankenstation := TRoom.create(self, self.RoomRectangle11);
   Krankenstation.bindBitmapToObject(self.ImageRoomDoorLeftUp);

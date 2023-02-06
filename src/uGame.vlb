@@ -10,14 +10,8 @@ Coordinates=485,308,212,36
 [KeyLabel]
 Coordinates=200,10,68,58
 
-[ImageRoomDoorRightUp]
-Coordinates=317,308,158,36
-
 [RoomRectangle16]
 Coordinates=186,308,121,36
-
-[ImageRoomDoorLeftDown]
-Coordinates=10,308,166,36
 
 [ImageRoomDoorUpDown]
 Coordinates=560,262,161,36
@@ -94,20 +88,14 @@ Coordinates=426,78,121,36
 [RoomRectangle4]
 Coordinates=302,78,114,36
 
-[ImageRoomDoorLeftRight]
-Coordinates=128,78,164,36
-
 [PlayerCharacter]
 Coordinates=10,78,108,36
-
-[ImageRoomDoorDown]
-Coordinates=548,10,144,36
 
 [RoomRectangle10]
 Coordinates=417,10,121,36
 
 []
-Coordinates=759,1,91,36
+Coordinates=317,308,158,36
 
 [MapPieceRectangle1]
 Coordinates=278,10,129,36
@@ -118,4 +106,10 @@ Coordinates=386,170,80,36
 
 [ItemsLayout]
 Coordinates=10,124,81,36
+
+[ImageRoomDoorLeftRightDown]
+Coordinates=548,10,144,36
+
+[ImageRoomDoorDown]
+Coordinates=10,308,166,36
 

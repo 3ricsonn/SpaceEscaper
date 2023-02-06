@@ -98,7 +98,7 @@ end;
 procedure TBaseGameClass.bindBitmapToObject(image: TRectangle);
 begin
   self._screenObject.Stroke.Kind := TBrushKind.Bitmap;
-  self._screenObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+  //self._screenObject.Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
   self._screenObject.Fill.Kind := TBrushKind.Bitmap;
   self._screenObject.Fill.Bitmap.Bitmap.Assign(image.Fill.Bitmap.Bitmap);
 end;
