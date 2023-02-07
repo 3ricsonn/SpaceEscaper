@@ -73,7 +73,7 @@ const
   INTERACTION_RADIUS = 100;
 
   // Debugging flags
-  DEBUGGING = False; // set to false to turn of debugging mode
+  DEBUGGING = True; // set to false to turn of debugging mode
   TEST_MAP_DIST = False; // set to false to turn of map distribution test
 
 var
@@ -318,7 +318,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToX(ScreenLayout.Position.x);
       // determine if player reached room boundry or if room has adjacent neighbour
@@ -420,7 +420,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
         player.Size.width);
@@ -520,7 +520,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToY(ScreenLayout.Position.y);
       // determine if player reached room boundry or if room has adjacent neighbour
@@ -621,14 +621,14 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToY(ScreenLayout.Position.y + ScreenLayout.height -
         player.Size.height);
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y + player.Size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.Size.height) or
+        player.currentRoom.Size.height - PLAYER_PADDING) or
         (player.currentRoom.getneighbour(south) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
