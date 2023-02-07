@@ -318,7 +318,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToX(ScreenLayout.Position.x);
       // determine if player reached room boundry or if room has adjacent neighbour
@@ -420,7 +420,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
         player.Size.width);
@@ -440,8 +440,9 @@ begin
         if (not(player.Position.y + player.Size.height >
           self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
           player.currentRoom.Size.height) or
-          (player.Position.x - player.velocity > self.RoomGridLayout.Position.x
-          + player.currentRoom.Position.x + DOOR_FRAME_SIZE)) then
+          (player.Position.x + player.Size.width + player.velocity <
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.width - DOOR_FRAME_SIZE)) then
         begin
           self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
             player.velocity;
@@ -520,7 +521,7 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToY(ScreenLayout.Position.y);
       // determine if player reached room boundry or if room has adjacent neighbour
@@ -621,14 +622,14 @@ begin
     end
 
     else
-    // map is to be moeved
+    // map is to be moved
     begin
       player.setToY(ScreenLayout.Position.y + ScreenLayout.height -
         player.Size.height);
       // determine if player reached room boundry or if room has adjacent neighbour
       if (player.Position.y + player.Size.height + player.velocity <
         self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
-        player.currentRoom.Size.height) or
+        player.currentRoom.Size.height - PLAYER_PADDING) or
         (player.currentRoom.getneighbour(south) <> nil) and
         ((player.Position.x > self.RoomGridLayout.Position.x +
         player.currentRoom.Position.x + DOOR_FRAME_SIZE) and
