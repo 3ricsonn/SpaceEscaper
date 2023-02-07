@@ -8,12 +8,15 @@ uses
   FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, FMX.Objects,
   FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls,
 
-  UBase, uPlayer, uRoom, uMapDistributionTest;
+  UBase, uPlayer, uRoom,
+  uEndingSuccess, uEndingFailure,
+  uMapDistributionTest;
 
 type
+  TStages = (GAME, ENDING_SUCCESS, ENDING_FAILURE);
+
   TGameForm = class(TForm)
     ItemsLayout: TLayout;
-    PlayerCharacter: TRectangle;
     ScreenLayout: TLayout;
     GameLoop: TTimer;
     KeyLabel: TLabel; // Debbing purpose
@@ -51,16 +54,24 @@ type
     MapPieceRectangle1: TRectangle;
     MapPieceRectangle2: TRectangle;
     PlayerLayout: TLayout;
+    PlayerCharacter: TRectangle;
+    FailureEndingFrame: TFailureEndingFrame;
+    SuccessEndingFrame: TSuccessEndingFrame;
+    EndingTimer: TTimer;
     procedure FormCreate(Sender: TObject);
+    procedure ChangeStage(stageName: TStages);
+    procedure PrepareAndStartGame;
+    procedure HideHUD;
     function createrooms: TRoom;
     procedure GameLoopTimer(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
-    procedure Reset;
+    procedure EndingTimerTick(Sender: TObject);
   private
     roomItems: array [0 .. 1] of TRectangle;
+    timeCounter: integer;
   public
     { Public declarations }
   end;
@@ -71,9 +82,10 @@ const
   DOOR_SIZE = 125;
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
+  ESCAPE_TIME = 30;
 
   // Debugging flags
-  DEBUGGING = False; // set to false to turn of debugging mode
+  DEBUGGING = True; // set to false to turn of debugging mode
   TEST_MAP_DIST = False; // set to false to turn of map distribution test
 
 var
@@ -110,20 +122,75 @@ begin
   // create and initialise player
   player := TPlayer.create(self, self.PlayerCharacter);
 
-  // move to start position
-  self.Reset;
+  self.ChangeStage(GAME);
 
   if DEBUGGING and TEST_MAP_DIST then
   begin
     if (testMapDistribution(player.currentRoom)) then
     begin
-      showmessage('Map Distribution Successful');
+      showMessage('Map Distribution Successful');
     end
     else
     begin
-      showmessage('Map Distribution failed');
+      showMessage('Map Distribution failed');
     end;
   end;
+end;
+
+procedure TGameForm.ChangeStage(stageName: TStages);
+begin
+  case stageName of
+    GAME:
+      self.PrepareAndStartGame;
+    ENDING_SUCCESS:
+      begin
+        self.HideHUD;
+        self.SuccessEndingFrame.Visible := True;
+      end;
+    ENDING_FAILURE:
+      begin
+        self.HideHUD;
+        FailureEndingFrame.Visible := True;
+      end;
+  end;
+end;
+
+{ Resets Game State }
+procedure TGameForm.PrepareAndStartGame;
+begin
+  self.GameLoop.Enabled := True;
+  self.EndingTimer.Enabled := True;
+  self.timeCounter := 0;
+  self.FailureEndingFrame.Visible := False;
+  self.SuccessEndingFrame.Visible := False;
+
+  // center player
+  player.setToPosition(self.PlayerLayout.width / 2 - player.Size.width / 2,
+    self.PlayerLayout.height / 2 - player.Size.height / 2);
+
+  // center start room
+  self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
+    self.ScreenLayout.width / 2 - self.RoomRectangle10.width / 2 -
+    self.RoomRectangle10.width;
+  self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
+    self.ScreenLayout.height / 2 - self.RoomRectangle10.height / 2 - 2 *
+    self.RoomRectangle10.height;
+
+  // create rooms
+  player.currentRoom := self.createrooms();
+end;
+
+{ disable and hide game elements }
+procedure TGameForm.HideHUD;
+begin
+  // disable timer
+  self.GameLoop.Enabled := False;
+  self.EndingTimer.Enabled := False;
+
+  // hdie gamem elements
+  self.PlayerLayout.Visible := False;
+  self.ItemsLayout.Visible := False;
+  self.RoomGridLayout.Visible := False;
 end;
 
 { Create Roomlayout of Labyrinth }
@@ -701,6 +768,11 @@ begin
     begin
       player.currentRoom.deletemappiece;
       player.addMappiece;
+
+      if player.countMappieces = 2 then
+      begin
+        self.ChangeStage(ENDING_SUCCESS);
+      end;
     end;
   end;
 end;
@@ -767,23 +839,15 @@ begin
   KeyLabel.Text := '';
 end;
 
-{ Resets Game State }
-procedure TGameForm.Reset;
+procedure TGameForm.EndingTimerTick(Sender: TObject);
+
 begin
-  // center player
-  player.setToPosition(self.PlayerLayout.width / 2 - player.Size.width / 2,
-    self.PlayerLayout.height / 2 - player.Size.height / 2);
+  self.timeCounter := self.timeCounter + 1;
 
-  // center start room
-  self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
-    self.ScreenLayout.width / 2 - self.RoomRectangle10.width / 2 -
-    self.RoomRectangle10.width;
-  self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
-    self.ScreenLayout.height / 2 - self.RoomRectangle10.height / 2 - 2 *
-    self.RoomRectangle10.height;
-
-  // create rooms
-  player.currentRoom := self.createrooms();
+  if self.timeCounter = ESCAPE_TIME then
+  begin
+    self.ChangeStage(ENDING_FAILURE);
+  end;
 end;
 
 end.

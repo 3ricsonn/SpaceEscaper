@@ -88,14 +88,11 @@ Coordinates=426,78,121,36
 [RoomRectangle4]
 Coordinates=302,78,114,36
 
-[PlayerCharacter]
-Coordinates=10,78,108,36
-
 [RoomRectangle10]
 Coordinates=417,10,121,36
 
 []
-Coordinates=317,308,158,36
+Coordinates=10,78,108,36
 
 [MapPieceRectangle1]
 Coordinates=278,10,129,36
