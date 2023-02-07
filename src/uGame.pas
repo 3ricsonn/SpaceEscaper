@@ -73,7 +73,7 @@ const
   INTERACTION_RADIUS = 100;
 
   // Debugging flags
-  DEBUGGING = True; // set to false to turn of debugging mode
+  DEBUGGING = False; // set to false to turn of debugging mode
   TEST_MAP_DIST = False; // set to false to turn of map distribution test
 
 var
