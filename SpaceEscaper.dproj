@@ -137,13 +137,13 @@
         <DCCReference Include="src\uBase.pas"/>
         <DCCReference Include="src\uRoom.pas"/>
         <DCCReference Include="tests\uMapDistributionTest.pas"/>
-        <DCCReference Include="forms\uEndingSuccess.pas">
-            <Form>SuccessEndingFrame</Form>
+        <DCCReference Include="frames\uEndingFailure.pas">
+            <Form>FailureEndingFrame</Form>
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>
-        <DCCReference Include="forms\uEndingFailure.pas">
-            <Form>FailureEndingFrame</Form>
+        <DCCReference Include="frames\uEndingSuccess.pas">
+            <Form>SuccessEndingFrame</Form>
             <FormType>fmx</FormType>
             <DesignClass>TFrame</DesignClass>
         </DCCReference>

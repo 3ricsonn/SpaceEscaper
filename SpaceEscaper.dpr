@@ -8,8 +8,8 @@ uses
   uBase in 'src\uBase.pas',
   uRoom in 'src\uRoom.pas',
   uMapDistributionTest in 'tests\uMapDistributionTest.pas',
-  uEndingSuccess in 'forms\uEndingSuccess.pas' {SuccessEndingFrame: TFrame},
-  uEndingFailure in 'forms\uEndingFailure.pas' {FailureEndingFrame: TFrame};
+  uEndingFailure in 'frames\uEndingFailure.pas' {FailureEndingFrame: TFrame},
+  uEndingSuccess in 'frames\uEndingSuccess.pas' {SuccessEndingFrame: TFrame};
 
 {$R *.res}
 

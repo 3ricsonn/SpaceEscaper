@@ -1,30 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.024,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.269,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\TestuGame.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.425,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.fmx=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEndingFailure.fmx</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.733,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.606,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.654,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEndingSuccess.pas=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEnddingSuccess.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.425,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEndingFailure.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.606,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.733,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.024,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.163,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\tests\uTest.pas=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\tests\uMapDistributionTest.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.654,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEndingSuccess.fmx=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEnddingSuccess.fmx</Transaction>
     <Transaction>1899.12.30 00:00:00.000.558,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEnddingSuccess.fmx=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.fmx</Transaction>
     <Transaction>1899.12.30 00:00:00.000.795,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\test\uTest.pas=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.558,C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\uEnddingSuccess.pas=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\forms\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.331,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\tests\uTest.pas</Transaction>
+    <Transaction>2023.02.07 22:17:02.956,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\frames\uEndingFailure.pas</Transaction>
+    <Transaction>2023.02.07 22:17:03.063,=C:\Users\sebas\OneDrive\Documents\SpaceEscaper\frames\uEndingSuccess.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
-    <File Path="forms"/>
-    <File Path="forms\uEndingFailure.pas"/>
-    <File Path="forms\uEndingFailure.fmx"/>
-    <File Path="forms\uEndingSuccess.pas"/>
-    <File Path="forms\uEndingSuccess.fmx"/>
+    <File Path="frames"/>
+    <File Path="frames\uEndingFailure.pas"/>
+    <File Path="frames\uEndingFailure.fmx"/>
+    <File Path="frames\uEndingSuccess.pas"/>
+    <File Path="frames\uEndingSuccess.fmx"/>
     <File Path="src"/>
     <File Path="src\uBase.pas"/>
     <File Path="src\uGame.pas"/>
-    <File Path="src\uGame.fmx"/>
     <File Path="src\uPlayer.pas"/>
     <File Path="src\uRoom.pas"/>
     <File Path="tests"/>
