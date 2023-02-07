@@ -440,8 +440,9 @@ begin
         if (not(player.Position.y + player.Size.height >
           self.RoomGridLayout.Position.y + player.currentRoom.Position.y +
           player.currentRoom.Size.height) or
-          (player.Position.x - player.velocity > self.RoomGridLayout.Position.x
-          + player.currentRoom.Position.x + DOOR_FRAME_SIZE)) then
+          (player.Position.x + player.Size.width + player.velocity <
+          self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
+          player.currentRoom.Size.width - DOOR_FRAME_SIZE)) then
         begin
           self.RoomGridLayout.Position.x := self.RoomGridLayout.Position.x -
             player.velocity;
