@@ -9,7 +9,7 @@ uses
   FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls,
 
   UBase, uPlayer, uRoom,
-  uEndingSuccess, uEndingFailure,
+  uEndingSuccess, uEndingFailure, uHUD,
   uMapDistributionTest;
 
 type
@@ -58,6 +58,7 @@ type
     FailureEndingFrame: TFailureEndingFrame;
     SuccessEndingFrame: TSuccessEndingFrame;
     EndingTimer: TTimer;
+    HUDFrame: THUDFrame;
     procedure FormCreate(Sender: TObject);
     procedure ChangeStage(stageName: TStages);
     procedure PrepareAndStartGame;
@@ -161,6 +162,8 @@ begin
   self.GameLoop.Enabled := True;
   self.EndingTimer.Enabled := True;
   self.timeCounter := 0;
+
+  self.HUDFrame.Visible := True;
   self.FailureEndingFrame.Visible := False;
   self.SuccessEndingFrame.Visible := False;
 
@@ -187,7 +190,10 @@ begin
   self.GameLoop.Enabled := False;
   self.EndingTimer.Enabled := False;
 
-  // hdie gamem elements
+  // hide HUD
+  self.HUDFrame.Visible := False;
+
+  // hide game elements
   self.PlayerLayout.Visible := False;
   self.ItemsLayout.Visible := False;
   self.RoomGridLayout.Visible := False;
@@ -843,6 +849,7 @@ procedure TGameForm.EndingTimerTick(Sender: TObject);
 
 begin
   self.timeCounter := self.timeCounter + 1;
+  self.HUDFrame.TimerLabel.Text := inttostr(ESCAPE_TIME - self.timeCounter) + 's';
 
   if self.timeCounter = ESCAPE_TIME then
   begin

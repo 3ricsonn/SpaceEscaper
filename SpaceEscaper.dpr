@@ -9,7 +9,8 @@ uses
   uRoom in 'src\uRoom.pas',
   uMapDistributionTest in 'tests\uMapDistributionTest.pas',
   uEndingFailure in 'frames\uEndingFailure.pas' {FailureEndingFrame: TFrame},
-  uEndingSuccess in 'frames\uEndingSuccess.pas' {SuccessEndingFrame: TFrame};
+  uEndingSuccess in 'frames\uEndingSuccess.pas' {SuccessEndingFrame: TFrame},
+  uHUD in 'frames\uHUD.pas' {HUDFrame: TFrame};
 
 {$R *.res}
 

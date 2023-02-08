@@ -17,4 +17,19 @@ inherited GameForm_Surface: TGameForm_Surface
     Size.Width = 1080.000000000000000000
     Size.Height = 1920.000000000000000000
   end
+  inherited FailureEndingFrame: TFailureEndingFrame
+    inherited Text: TText
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited SuccessEndingFrame: TSuccessEndingFrame
+    inherited Text1: TText
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited HUDFrame: THUDFrame
+    inherited TimerLabel: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
 end

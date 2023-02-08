@@ -9,9 +9,8 @@ uses
 
 type
   TFailureEndingFrame = class(TFrame)
-    BackgroundImage: TImage;
-    TextPanel: TPanel;
-    Text1: TText;
+    BackgroundImageRectangle: TRectangle;
+    Text: TText;
   private
     { Private-Deklarationen }
   public

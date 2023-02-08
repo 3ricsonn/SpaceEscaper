@@ -9,8 +9,9 @@ uses
 
 type
   TSuccessEndingFrame = class(TFrame)
-    BackgroundImage: TImage;
+    BackgroundImageRectangle: TRectangle;
     Panel1: TPanel;
+    Text: TText;
     Text1: TText;
   private
     { Private-Deklarationen }
