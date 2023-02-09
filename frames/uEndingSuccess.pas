@@ -10,9 +10,6 @@ uses
 type
   TSuccessEndingFrame = class(TFrame)
     BackgroundImageRectangle: TRectangle;
-    Panel1: TPanel;
-    Text: TText;
-    Text1: TText;
   private
     { Private-Deklarationen }
   public

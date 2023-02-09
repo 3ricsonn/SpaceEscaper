@@ -62,7 +62,7 @@ object HUDFrame: THUDFrame
     TextSettings.Font.StyleExt = {00070000000000000004000000}
     TextSettings.FontColor = claAzure
     TextSettings.HorzAlign = Center
-    Text = '00s'
+    Text = '60s'
     TabOrder = 1
   end
 end

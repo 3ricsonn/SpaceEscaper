@@ -10,7 +10,6 @@ uses
 type
   TFailureEndingFrame = class(TFrame)
     BackgroundImageRectangle: TRectangle;
-    Text: TText;
   private
     { Private-Deklarationen }
   public

@@ -9,16 +9,6 @@ inherited GameForm_Windows: TGameForm_Windows
       Stroke.Thickness = 0.000000000000000000
     end
   end
-  inherited FailureEndingFrame: TFailureEndingFrame
-    inherited Text: TText
-      TextSettings.Font.StyleExt = {00070000000000000004000000}
-    end
-  end
-  inherited SuccessEndingFrame: TSuccessEndingFrame
-    inherited Text1: TText
-      TextSettings.Font.StyleExt = {00070000000000000004000000}
-    end
-  end
   inherited HUDFrame: THUDFrame
     inherited TimerLabel: TLabel
       TextSettings.Font.StyleExt = {00070000000000000004000000}

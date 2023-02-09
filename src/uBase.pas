@@ -13,6 +13,7 @@ type
     UpButton: Boolean;
     DownButton: Boolean;
     EventButton: Boolean;
+    ProcedeButton: Boolean;
   end;
 
   _TPos = record

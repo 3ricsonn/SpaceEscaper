@@ -10,7 +10,8 @@ uses
   uMapDistributionTest in 'tests\uMapDistributionTest.pas',
   uEndingFailure in 'frames\uEndingFailure.pas' {FailureEndingFrame: TFrame},
   uEndingSuccess in 'frames\uEndingSuccess.pas' {SuccessEndingFrame: TFrame},
-  uHUD in 'frames\uHUD.pas' {HUDFrame: TFrame};
+  uHUD in 'frames\uHUD.pas' {HUDFrame: TFrame},
+  uStartAnimation in 'frames\uStartAnimation.pas' {StartAnimationFrame: TFrame};
 
 {$R *.res}
 

@@ -9,11 +9,11 @@ uses
   FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls,
 
   UBase, uPlayer, uRoom,
-  uEndingSuccess, uEndingFailure, uHUD,
+  uEndingSuccess, uEndingFailure, uHUD, uStartAnimation,
   uMapDistributionTest;
 
 type
-  TStages = (GAME, ENDING_SUCCESS, ENDING_FAILURE);
+  TStages = (START_ANIMATION, GAME, ENDING_SUCCESS, ENDING_FAILURE);
 
   TGameForm = class(TForm)
     ItemsLayout: TLayout;
@@ -59,12 +59,15 @@ type
     SuccessEndingFrame: TSuccessEndingFrame;
     EndingTimer: TTimer;
     HUDFrame: THUDFrame;
+    ImageRoomStart: TRectangle;
+    StartAnimationFrame: TStartAnimationFrame;
     procedure FormCreate(Sender: TObject);
     procedure ChangeStage(stageName: TStages);
     procedure PrepareAndStartGame;
     procedure HideHUD;
     function createrooms: TRoom;
     procedure GameLoopTimer(Sender: TObject);
+    procedure updateStartAnimation;
     procedure FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
       Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -73,6 +76,7 @@ type
   private
     roomItems: array [0 .. 1] of TRectangle;
     timeCounter: integer;
+    stage: TStages;
   public
     { Public declarations }
   end;
@@ -83,10 +87,10 @@ const
   DOOR_SIZE = 125;
   DOOR_FRAME_SIZE = 85;
   INTERACTION_RADIUS = 100;
-  ESCAPE_TIME = 30;
+  ESCAPE_TIME = 60; // in seconds
 
   // Debugging flags
-  DEBUGGING = True; // set to false to turn of debugging mode
+  DEBUGGING = False; // set to false to turn of debugging mode
   TEST_MAP_DIST = False; // set to false to turn of map distribution test
 
 var
@@ -123,7 +127,7 @@ begin
   // create and initialise player
   player := TPlayer.create(self, self.PlayerCharacter);
 
-  self.ChangeStage(GAME);
+  self.ChangeStage(START_ANIMATION);
 
   if DEBUGGING and TEST_MAP_DIST then
   begin
@@ -140,7 +144,14 @@ end;
 
 procedure TGameForm.ChangeStage(stageName: TStages);
 begin
+  self.stage := stageName;
   case stageName of
+    START_ANIMATION:
+      begin
+        self.HideHUD;
+        self.StartAnimationFrame.Visible := True;
+        self.StartAnimationFrame.resetFrame;
+      end;
     GAME:
       self.PrepareAndStartGame;
     ENDING_SUCCESS:
@@ -154,33 +165,6 @@ begin
         FailureEndingFrame.Visible := True;
       end;
   end;
-end;
-
-{ Resets Game State }
-procedure TGameForm.PrepareAndStartGame;
-begin
-  self.GameLoop.Enabled := True;
-  self.EndingTimer.Enabled := True;
-  self.timeCounter := 0;
-
-  self.HUDFrame.Visible := True;
-  self.FailureEndingFrame.Visible := False;
-  self.SuccessEndingFrame.Visible := False;
-
-  // center player
-  player.setToPosition(self.PlayerLayout.width / 2 - player.Size.width / 2,
-    self.PlayerLayout.height / 2 - player.Size.height / 2);
-
-  // center start room
-  self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
-    self.ScreenLayout.width / 2 - self.RoomRectangle10.width / 2 -
-    self.RoomRectangle10.width;
-  self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
-    self.ScreenLayout.height / 2 - self.RoomRectangle10.height / 2 - 2 *
-    self.RoomRectangle10.height;
-
-  // create rooms
-  player.currentRoom := self.createrooms();
 end;
 
 { disable and hide game elements }
@@ -197,6 +181,40 @@ begin
   self.PlayerLayout.Visible := False;
   self.ItemsLayout.Visible := False;
   self.RoomGridLayout.Visible := False;
+end;
+
+{ Resets Game State }
+procedure TGameForm.PrepareAndStartGame;
+begin
+  self.GameLoop.Enabled := True;
+  self.EndingTimer.Enabled := True;
+  self.timeCounter := 0;
+  self.HUDFrame.TimerLabel.Text := '60s';
+
+  self.HUDFrame.Visible := True;
+  self.FailureEndingFrame.Visible := False;
+  self.SuccessEndingFrame.Visible := False;
+  self.StartAnimationFrame.Visible := False;
+
+  // re show game elements
+  self.PlayerLayout.Visible := True;
+  self.ItemsLayout.Visible := True;
+  self.RoomGridLayout.Visible := True;
+
+  // center player
+  player.setToPosition(self.PlayerLayout.width / 2 - player.Size.width / 2,
+    self.PlayerLayout.height / 2 - player.Size.height / 2);
+
+  // center start room
+  self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
+    self.ScreenLayout.width / 2 - self.RoomRectangle10.width / 2 -
+    self.RoomRectangle10.width;
+  self.RoomGridLayout.Position.y := self.ScreenLayout.Position.y +
+    self.ScreenLayout.height / 2 - self.RoomRectangle10.height / 2 - 2 *
+    self.RoomRectangle10.height;
+
+  // create rooms
+  player.currentRoom := self.createrooms();
 end;
 
 { Create Roomlayout of Labyrinth }
@@ -239,7 +257,7 @@ begin
   hallway7.bindBitmapToObject(self.ImageRoomDoorUpDown);
 
   Schaltzentrale := TRoom.create(self, self.RoomRectangle10);
-  // Schaltzentrale.bindBitmapToObject(self.ImageRoomDoorRightUpDown);
+  Schaltzentrale.bindBitmapToObject(self.ImageRoomStart);
 
   Krankenstation := TRoom.create(self, self.RoomRectangle11);
   Krankenstation.bindBitmapToObject(self.ImageRoomDoorLeftUp);
@@ -356,7 +374,7 @@ begin
   // == move left ==
   if (eventHandler.LeftButton) then
   begin
-    // determine if player of map have to be moved
+    // determine if player or map have to be moved
     if (player.Position.x - player.velocity > self.ScreenLayout.Position.x) then
     // player has to be moved
     begin
@@ -454,7 +472,7 @@ begin
   // == move right ==
   if (eventHandler.RightButton) then
   begin
-    // determine if player of map have to be moved
+    // determine if player or map have to be moved
     if (player.Position.x + player.Size.width + player.velocity <
       ScreenLayout.Position.x + ScreenLayout.width) then
     // player has to be moved
@@ -469,7 +487,7 @@ begin
         (player.Position.y + player.Size.height < self.RoomGridLayout.Position.y
         + player.currentRoom.Position.y + player.currentRoom.Size.height -
         DOOR_FRAME_SIZE)) then
-      // palyer moves
+      // player moves
       begin
         // determine if player hits door frame
         if (not(player.Position.y + player.Size.height >
@@ -497,7 +515,7 @@ begin
     begin
       player.setToX(ScreenLayout.Position.x + ScreenLayout.width -
         player.Size.width);
-      // determine if player reached room boundry or if room has adjacent neighbour
+      // determine if player reached room boundary or if room has adjacent neighbour
       if (player.Position.x + player.Size.width + player.velocity <
         self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
         player.currentRoom.Size.width - PLAYER_PADDING) or
@@ -559,7 +577,7 @@ begin
   // == move up ==
   if (eventHandler.UpButton) then
   begin
-    // determine if player of map have to be moved
+    // determine if player or map have to be moved
     if (player.Position.y - player.velocity > ScreenLayout.Position.y) then
     // player has to be moved
     begin
@@ -597,7 +615,7 @@ begin
     // map is to be moved
     begin
       player.setToY(ScreenLayout.Position.y);
-      // determine if player reached room boundry or if room has adjacent neighbour
+      // determine if player reached room boundary or if room has adjacent neighbour
       if (player.Position.y - player.velocity > self.RoomGridLayout.Position.y +
         player.currentRoom.Position.y + PLAYER_PADDING) or
         (player.currentRoom.getneighbour(north) <> nil) and
@@ -608,7 +626,7 @@ begin
         DOOR_FRAME_SIZE)) then
       // move map
       begin
-        // determine of player hits door frame
+        // determine if player hits door frame
         if (not(player.Position.x + player.Size.width >
           self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
           player.currentRoom.Size.width) or (player.Position.y - player.velocity
@@ -656,7 +674,7 @@ begin
   // == move down ==
   if (eventHandler.DownButton) then
   begin
-    // determine if player of map have to be moved
+    // determine if player or map have to be moved
     if (player.Position.y + player.velocity + player.Size.height <
       ScreenLayout.Position.y + ScreenLayout.height) then
     // player has to be moved
@@ -711,7 +729,7 @@ begin
         DOOR_FRAME_SIZE)) then
       // move map
       begin
-        // determine of player hits door frame
+        // determine if player hits door frame
         if (not(player.Position.x + player.Size.width >
           self.RoomGridLayout.Position.x + player.currentRoom.Position.x +
           player.currentRoom.Size.width) or
@@ -783,6 +801,18 @@ begin
   end;
 end;
 
+procedure TGameForm.updateStartAnimation;
+var
+  finished: boolean;
+begin
+  finished := self.StartAnimationFrame.changeFrame;
+
+  if finished then
+  begin
+    self.ChangeStage(GAME);
+  end
+end;
+
 { Userinput: Key pushed down }
 procedure TGameForm.FormKeyDown(Sender: TObject; var Key: Word;
   var KeyChar: Char; Shift: TShiftState);
@@ -814,11 +844,24 @@ begin
         KeyLabel.Text := 'E';
       end;
   end;
+  if (KeyChar = #32) then
+  begin;
+    if (self.stage = START_ANIMATION) then
+    begin
+      self.updateStartAnimation;
+    end
+    else if (self.stage = ENDING_SUCCESS) or (self.stage = ENDING_FAILURE) then
+    begin
+      self.ChangeStage(GAME);
+    end;
+  end;
 end;
 
 { Userinput: Key released }
 procedure TGameForm.FormKeyUp(Sender: TObject; var Key: Word; var KeyChar: Char;
   Shift: TShiftState);
+var
+  finished: boolean;
 begin
   case KeyChar of
     'W', 'w':
@@ -849,7 +892,8 @@ procedure TGameForm.EndingTimerTick(Sender: TObject);
 
 begin
   self.timeCounter := self.timeCounter + 1;
-  self.HUDFrame.TimerLabel.Text := inttostr(ESCAPE_TIME - self.timeCounter) + 's';
+  self.HUDFrame.TimerLabel.Text :=
+    IntToStr(ESCAPE_TIME - self.timeCounter) + 's';
 
   if self.timeCounter = ESCAPE_TIME then
   begin
