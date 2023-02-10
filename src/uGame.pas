@@ -189,8 +189,12 @@ begin
   self.GameLoop.Enabled := True;
   self.EndingTimer.Enabled := True;
   self.timeCounter := 0;
-  self.HUDFrame.TimerLabel.Text := '60s';
 
+  // reset prompts
+  self.HUDFrame.TimerLabel.Text := '60s';
+  self.HUDFrame.CollectionLabel.Text := '0/2';
+
+  // change to game visuals
   self.HUDFrame.Visible := True;
   self.FailureEndingFrame.Visible := False;
   self.SuccessEndingFrame.Visible := False;
