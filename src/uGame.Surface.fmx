@@ -18,8 +18,17 @@ inherited GameForm_Surface: TGameForm_Surface
     Size.Height = 1920.000000000000000000
   end
   inherited HUDFrame: THUDFrame
-    inherited TimerLabel: TLabel
-      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    Size.Width = 1080.000000000000000000
+    Size.Height = 1920.000000000000000000
+    inherited TimerFrameImage: TImage
+      inherited TimerLabel: TLabel
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+      end
+    end
+    inherited CollectionFrameImage: TImage
+      inherited CollectionLabel: TLabel
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+      end
     end
   end
 end

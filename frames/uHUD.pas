@@ -11,6 +11,9 @@ type
   THUDFrame = class(TFrame)
     TimerFrameImage: TImage;
     TimerLabel: TLabel;
+    CollectionFrameImage: TImage;
+    CollectionLabel: TLabel;
+    MapIconImage: TImage;
   private
     { Private declarations }
   public
@@ -20,5 +23,4 @@ type
 implementation
 
 {$R *.fmx}
-
 end.

@@ -10,8 +10,15 @@ inherited GameForm_Windows: TGameForm_Windows
     end
   end
   inherited HUDFrame: THUDFrame
-    inherited TimerLabel: TLabel
-      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    inherited TimerFrameImage: TImage
+      inherited TimerLabel: TLabel
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+      end
+    end
+    inherited CollectionFrameImage: TImage
+      inherited CollectionLabel: TLabel
+        TextSettings.Font.StyleExt = {00070000000000000004000000}
+      end
     end
   end
 end

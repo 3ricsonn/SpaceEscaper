@@ -58,9 +58,9 @@ type
     FailureEndingFrame: TFailureEndingFrame;
     SuccessEndingFrame: TSuccessEndingFrame;
     EndingTimer: TTimer;
-    HUDFrame: THUDFrame;
     ImageRoomStart: TRectangle;
     StartAnimationFrame: TStartAnimationFrame;
+    HUDFrame: THUDFrame;
     procedure FormCreate(Sender: TObject);
     procedure ChangeStage(stageName: TStages);
     procedure PrepareAndStartGame;
@@ -792,6 +792,7 @@ begin
     begin
       player.currentRoom.deletemappiece;
       player.addMappiece;
+      self.HUDFrame.CollectionLabel.Text := inttostr(player.countMappieces) + '/2';
 
       if player.countMappieces = 2 then
       begin
