@@ -1,5 +1,9 @@
 # SpaceEscaper
 
+<p align="center">
+<img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/3ricsonn/SpaceEscaper">
+</p>
+
 Small rouge-like game written in pascal using firemonkey. The Goal of the game is to collect random placed map pieces to escape a collapsing spaceship within a time limit.
 
 <p align="center">
