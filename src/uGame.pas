@@ -204,6 +204,7 @@ begin
   // center player
   player.setToPosition(self.PlayerLayout.width / 2 - player.Size.width / 2,
     self.PlayerLayout.height / 2 - player.Size.height / 2);
+  player.resetMappieces;
 
   // center start room
   self.RoomGridLayout.Position.x := self.ScreenLayout.Position.x +
@@ -792,7 +793,8 @@ begin
     begin
       player.currentRoom.deletemappiece;
       player.addMappiece;
-      self.HUDFrame.CollectionLabel.Text := inttostr(player.countMappieces) + '/2';
+      self.HUDFrame.CollectionLabel.Text :=
+        IntToStr(player.countMappieces) + '/2';
 
       if player.countMappieces = 2 then
       begin

@@ -19,6 +19,7 @@ type
     constructor create(AOwner: TComponent; screenObject: TRectangle); overload;
     procedure addMappiece;
     function countMappieces: integer;
+    procedure resetMappieces;
   end;
 
 implementation
@@ -40,6 +41,11 @@ end;
 function TPlayer.countMappieces: integer;
 begin
   result := self._collectedMapPieces;
+end;
+
+procedure TPlayer.resetMappieces;
+begin
+  self._collectedMapPieces := 0;
 end;
 
 end.
